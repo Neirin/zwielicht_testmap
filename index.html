@@ -52,21 +52,6 @@
         <script src="data/OrtsteileHamburg2080_5.js"></script>
         <script src="data/OrtevonInteresseHamburg2080_6.js"></script>
         <script>
-        var highlightLayer;
-        function highlightFeature(e) {
-            highlightLayer = e.target;
-
-            if (e.target.feature.geometry.type === 'LineString' || e.target.feature.geometry.type === 'MultiLineString') {
-              highlightLayer.setStyle({
-                color: '#eb1ad0',
-              });
-            } else {
-              highlightLayer.setStyle({
-                fillColor: '#eb1ad0',
-                fillOpacity: 1
-              });
-            }
-        }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
         }).fitBounds([[53.23770807338812,9.411518400780626],[53.75026841948676,10.671625374880094]]);
@@ -149,16 +134,6 @@
         bounds_group.addLayer(layer_KarteNurNeueMittet_modifiziert_2);
         map.addLayer(layer_KarteNurNeueMittet_modifiziert_2);
         function pop_BezirkeHamburg2080_3(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                },
-                mouseover: highlightFeature,
-            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(String(feature.properties['fid']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -205,16 +180,6 @@
         bounds_group.addLayer(layer_BezirkeHamburg2080_3);
         map.addLayer(layer_BezirkeHamburg2080_3);
         function pop_StadtteileHamburg2080_4(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                },
-                mouseover: highlightFeature,
-            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -261,16 +226,6 @@
         bounds_group.addLayer(layer_StadtteileHamburg2080_4);
         map.addLayer(layer_StadtteileHamburg2080_4);
         function pop_OrtsteileHamburg2080_5(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                },
-                mouseover: highlightFeature,
-            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(String(feature.properties['fid']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -320,16 +275,6 @@
         bounds_group.addLayer(layer_OrtsteileHamburg2080_5);
         map.addLayer(layer_OrtsteileHamburg2080_5);
         function pop_OrtevonInteresseHamburg2080_6(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (var i in e.target._eventParents) {
-                        if (typeof e.target._eventParents[i].resetStyle === 'function') {
-                            e.target._eventParents[i].resetStyle(e.target);
-                        }
-                    }
-                },
-                mouseover: highlightFeature,
-            });
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -557,19 +502,6 @@
                 }
         });
         setBounds();
-        var i = 0;
-        layer_BezirkeHamburg2080_3.eachLayer(function(layer) {
-            var context = {
-                feature: layer.feature,
-                variables: {}
-            };
-            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #b01129; font-size: 17pt; font-family: \'Segoe UI Black\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_BezirkeHamburg2080_3'});
-            labels.push(layer);
-            totalMarkers += 1;
-              layer.added = true;
-              addLabel(layer, i);
-              i++;
-        });
                 if (map.hasLayer(layer_BezirkeHamburg2080_3)) {
                     if (map.getZoom() <= 9 && map.getZoom() >= 11) {
                         layer_BezirkeHamburg2080_3.eachLayer(function (layer) {
@@ -618,7 +550,7 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
-        var Filters = {"organisation": "str","typ": "str","wohn": "str"};
+        var Filters = {"organisation": "str","typ": "str","wohn": "str","bezirk": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
           if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -705,19 +637,6 @@
             }
           this[lyr["options"]["layerName"]].clearLayers();
           this[lyr["options"]["layerName"]].addData(features);
-        var i = 0;
-        layer_BezirkeHamburg2080_3.eachLayer(function(layer) {
-            var context = {
-                feature: layer.feature,
-                variables: {}
-            };
-            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #b01129; font-size: 17pt; font-family: \'Segoe UI Black\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_BezirkeHamburg2080_3'});
-            labels.push(layer);
-            totalMarkers += 1;
-              layer.added = true;
-              addLabel(layer, i);
-              i++;
-        });
           }
           })
         }
@@ -828,6 +747,41 @@
                 filterFunc();
             };
             div_wohn.appendChild(reset_wohn);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_bezirk = document.createElement('div');
+            div_bezirk.id = "div_bezirk";
+            div_bezirk.className= "filterselect";
+            document.getElementById("menu").appendChild(div_bezirk);
+            sel_bezirk = document.createElement('select');
+            sel_bezirk.multiple = true;
+            sel_bezirk.size = 6;
+            sel_bezirk.id = "sel_bezirk";
+            var bezirk_options_str = "<option value='' unselected></option>";
+            sel_bezirk.onchange = function(){filterFunc()};
+            bezirk_options_str  += '<option value="NULL">NULL</option>';
+            bezirk_options_str  += '<option value=""></option>';
+            bezirk_options_str  += '<option value="Eimsbüttel">Eimsbüttel</option>';
+            bezirk_options_str  += '<option value="Hamburg-Nord">Hamburg-Nord</option>';
+            bezirk_options_str  += '<option value="Neue-Mitte">Neue-Mitte</option>';
+            bezirk_options_str  += '<option value="Wandsbek">Wandsbek</option>';
+            sel_bezirk.innerHTML = bezirk_options_str;
+            div_bezirk.appendChild(sel_bezirk);
+            var lab_bezirk = document.createElement('div');
+            lab_bezirk.innerHTML = 'bezirk';
+            lab_bezirk.className = 'filterlabel';
+            div_bezirk.appendChild(lab_bezirk);
+            var reset_bezirk = document.createElement('div');
+            reset_bezirk.innerHTML = 'clear filter';
+            reset_bezirk.className = 'filterlabel';
+            reset_bezirk.onclick = function() {
+                var options = document.getElementById("sel_bezirk").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_bezirk.appendChild(reset_bezirk);
         L.ImageOverlay.include({
             getBounds: function () {
                 return this._bounds;
