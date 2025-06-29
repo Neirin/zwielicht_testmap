@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/MarkerCluster.css">
         <link rel="stylesheet" href="css/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/filter.css">
 <link rel="stylesheet" href="css/nouislider.min.css">
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
@@ -24,7 +25,7 @@
             margin: 0;
         }
         </style>
-        <title></title>
+        <title>Hamburg 2080</title>
     </head>
     <body>
         <div id="map">
@@ -42,13 +43,14 @@
         <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet-measure.js"></script>
         <script src="js/leaflet.markercluster.js"></script>
+        <script src="js/leaflet-search.js"></script>
         <script src="js/tailDT.js"></script>
 <script src="js/nouislider.min.js"></script>
 <script src="js/wNumb.js"></script>
-        <script src="data/BezirkeHamburg2080_2.js"></script>
-        <script src="data/StadtteileHamburg2080_3.js"></script>
-        <script src="data/OrtsteileHamburg2080_4.js"></script>
-        <script src="data/OrtevonInteresseHamburg2080_5.js"></script>
+        <script src="data/BezirkeHamburg2080_3.js"></script>
+        <script src="data/StadtteileHamburg2080_4.js"></script>
+        <script src="data/OrtsteileHamburg2080_5.js"></script>
+        <script src="data/OrtevonInteresseHamburg2080_6.js"></script>
         <script>
         var highlightLayer;
         function highlightFeature(e) {
@@ -56,18 +58,18 @@
 
             if (e.target.feature.geometry.type === 'LineString' || e.target.feature.geometry.type === 'MultiLineString') {
               highlightLayer.setStyle({
-                color: '#ffff00',
+                color: '#eb1ad0',
               });
             } else {
               highlightLayer.setStyle({
-                fillColor: '#ffff00',
+                fillColor: '#eb1ad0',
                 fillOpacity: 1
               });
             }
         }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[53.431926969960124,9.770439693568509],[53.671968273406954,10.361371471060576]]);
+        }).fitBounds([[53.23770807338812,9.411518400780626],[53.75026841948676,10.671625374880094]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -137,7 +139,16 @@
                                               {pane: 'pane_KarteHamburggerman_modifiziert_1'});
         bounds_group.addLayer(layer_KarteHamburggerman_modifiziert_1);
         map.addLayer(layer_KarteHamburggerman_modifiziert_1);
-        function pop_BezirkeHamburg2080_2(feature, layer) {
+        map.createPane('pane_KarteNurNeueMittet_modifiziert_2');
+        map.getPane('pane_KarteNurNeueMittet_modifiziert_2').style.zIndex = 402;
+        var img_KarteNurNeueMittet_modifiziert_2 = 'data/KarteNurNeueMittet_modifiziert_2.png';
+        var img_bounds_KarteNurNeueMittet_modifiziert_2 = [[53.53275851704106,9.936871862138204],[53.58467716750487,10.179262829491732]];
+        var layer_KarteNurNeueMittet_modifiziert_2 = new L.imageOverlay(img_KarteNurNeueMittet_modifiziert_2,
+                                              img_bounds_KarteNurNeueMittet_modifiziert_2,
+                                              {pane: 'pane_KarteNurNeueMittet_modifiziert_2'});
+        bounds_group.addLayer(layer_KarteNurNeueMittet_modifiziert_2);
+        map.addLayer(layer_KarteNurNeueMittet_modifiziert_2);
+        function pop_BezirkeHamburg2080_3(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -150,13 +161,13 @@
             });
             var popupContent = '<table>\
                     <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(String(feature.properties['fid']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
                         <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td class="visible-with-data" id="wohn" colspan="2"><strong>wohn</strong><br />' + (feature.properties['wohn'] !== null ? autolinker.link(String(feature.properties['wohn']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td class="visible-with-data" id="notiz" colspan="2"><strong>notiz</strong><br />' + (feature.properties['notiz'] !== null ? autolinker.link(String(feature.properties['notiz']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td class="visible-with-data" id="notiz" colspan="2"><strong>Beschreibung</strong><br />' + (feature.properties['notiz'] !== null ? autolinker.link(String(feature.properties['notiz']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -166,34 +177,34 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_BezirkeHamburg2080_2_0() {
+        function style_BezirkeHamburg2080_3_0() {
             return {
-                pane: 'pane_BezirkeHamburg2080_2',
+                pane: 'pane_BezirkeHamburg2080_3',
                 opacity: 1,
-                color: 'rgba(123,20,36,0.5)',
-                dashArray: '',
+                color: 'rgba(159,18,141,1.0)',
+                dashArray: '8.0,4.0,2.0,4.0',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 3.0,
+                weight: 2.0,
                 fillOpacity: 0,
                 interactive: true,
             }
         }
-        map.createPane('pane_BezirkeHamburg2080_2');
-        map.getPane('pane_BezirkeHamburg2080_2').style.zIndex = 402;
-        map.getPane('pane_BezirkeHamburg2080_2').style['mix-blend-mode'] = 'normal';
-        var layer_BezirkeHamburg2080_2 = new L.geoJson(json_BezirkeHamburg2080_2, {
+        map.createPane('pane_BezirkeHamburg2080_3');
+        map.getPane('pane_BezirkeHamburg2080_3').style.zIndex = 403;
+        map.getPane('pane_BezirkeHamburg2080_3').style['mix-blend-mode'] = 'normal';
+        var layer_BezirkeHamburg2080_3 = new L.geoJson(json_BezirkeHamburg2080_3, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_BezirkeHamburg2080_2',
-            layerName: 'layer_BezirkeHamburg2080_2',
-            pane: 'pane_BezirkeHamburg2080_2',
-            onEachFeature: pop_BezirkeHamburg2080_2,
-            style: style_BezirkeHamburg2080_2_0,
+            dataVar: 'json_BezirkeHamburg2080_3',
+            layerName: 'layer_BezirkeHamburg2080_3',
+            pane: 'pane_BezirkeHamburg2080_3',
+            onEachFeature: pop_BezirkeHamburg2080_3,
+            style: style_BezirkeHamburg2080_3_0,
         });
-        bounds_group.addLayer(layer_BezirkeHamburg2080_2);
-        map.addLayer(layer_BezirkeHamburg2080_2);
-        function pop_StadtteileHamburg2080_3(feature, layer) {
+        bounds_group.addLayer(layer_BezirkeHamburg2080_3);
+        map.addLayer(layer_BezirkeHamburg2080_3);
+        function pop_StadtteileHamburg2080_4(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -222,12 +233,12 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_StadtteileHamburg2080_3_0() {
+        function style_StadtteileHamburg2080_4_0() {
             return {
-                pane: 'pane_StadtteileHamburg2080_3',
+                pane: 'pane_StadtteileHamburg2080_4',
                 opacity: 1,
-                color: 'rgba(123,20,36,1.0)',
-                dashArray: '',
+                color: 'rgba(159,18,141,1.0)',
+                dashArray: '8.0,4.0,2.0,4.0,2.0,4.0',
                 lineCap: 'square',
                 lineJoin: 'bevel',
                 weight: 2.0,
@@ -235,21 +246,21 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_StadtteileHamburg2080_3');
-        map.getPane('pane_StadtteileHamburg2080_3').style.zIndex = 403;
-        map.getPane('pane_StadtteileHamburg2080_3').style['mix-blend-mode'] = 'normal';
-        var layer_StadtteileHamburg2080_3 = new L.geoJson(json_StadtteileHamburg2080_3, {
+        map.createPane('pane_StadtteileHamburg2080_4');
+        map.getPane('pane_StadtteileHamburg2080_4').style.zIndex = 404;
+        map.getPane('pane_StadtteileHamburg2080_4').style['mix-blend-mode'] = 'normal';
+        var layer_StadtteileHamburg2080_4 = new L.geoJson(json_StadtteileHamburg2080_4, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_StadtteileHamburg2080_3',
-            layerName: 'layer_StadtteileHamburg2080_3',
-            pane: 'pane_StadtteileHamburg2080_3',
-            onEachFeature: pop_StadtteileHamburg2080_3,
-            style: style_StadtteileHamburg2080_3_0,
+            dataVar: 'json_StadtteileHamburg2080_4',
+            layerName: 'layer_StadtteileHamburg2080_4',
+            pane: 'pane_StadtteileHamburg2080_4',
+            onEachFeature: pop_StadtteileHamburg2080_4,
+            style: style_StadtteileHamburg2080_4_0,
         });
-        bounds_group.addLayer(layer_StadtteileHamburg2080_3);
-        map.addLayer(layer_StadtteileHamburg2080_3);
-        function pop_OrtsteileHamburg2080_4(feature, layer) {
+        bounds_group.addLayer(layer_StadtteileHamburg2080_4);
+        map.addLayer(layer_StadtteileHamburg2080_4);
+        function pop_OrtsteileHamburg2080_5(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -261,6 +272,9 @@
                 mouseover: highlightFeature,
             });
             var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(String(feature.properties['fid']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
@@ -278,11 +292,11 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_OrtsteileHamburg2080_4_0() {
+        function style_OrtsteileHamburg2080_5_0() {
             return {
-                pane: 'pane_OrtsteileHamburg2080_4',
+                pane: 'pane_OrtsteileHamburg2080_5',
                 opacity: 1,
-                color: 'rgba(176,17,41,1.0)',
+                color: 'rgba(235,26,208,1.0)',
                 dashArray: '8.0,4.0,2.0,4.0',
                 lineCap: 'square',
                 lineJoin: 'bevel',
@@ -291,21 +305,21 @@
                 interactive: true,
             }
         }
-        map.createPane('pane_OrtsteileHamburg2080_4');
-        map.getPane('pane_OrtsteileHamburg2080_4').style.zIndex = 404;
-        map.getPane('pane_OrtsteileHamburg2080_4').style['mix-blend-mode'] = 'normal';
-        var layer_OrtsteileHamburg2080_4 = new L.geoJson(json_OrtsteileHamburg2080_4, {
+        map.createPane('pane_OrtsteileHamburg2080_5');
+        map.getPane('pane_OrtsteileHamburg2080_5').style.zIndex = 405;
+        map.getPane('pane_OrtsteileHamburg2080_5').style['mix-blend-mode'] = 'normal';
+        var layer_OrtsteileHamburg2080_5 = new L.geoJson(json_OrtsteileHamburg2080_5, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_OrtsteileHamburg2080_4',
-            layerName: 'layer_OrtsteileHamburg2080_4',
-            pane: 'pane_OrtsteileHamburg2080_4',
-            onEachFeature: pop_OrtsteileHamburg2080_4,
-            style: style_OrtsteileHamburg2080_4_0,
+            dataVar: 'json_OrtsteileHamburg2080_5',
+            layerName: 'layer_OrtsteileHamburg2080_5',
+            pane: 'pane_OrtsteileHamburg2080_5',
+            onEachFeature: pop_OrtsteileHamburg2080_5,
+            style: style_OrtsteileHamburg2080_5_0,
         });
-        bounds_group.addLayer(layer_OrtsteileHamburg2080_4);
-        map.addLayer(layer_OrtsteileHamburg2080_4);
-        function pop_OrtevonInteresseHamburg2080_5(feature, layer) {
+        bounds_group.addLayer(layer_OrtsteileHamburg2080_5);
+        map.addLayer(layer_OrtsteileHamburg2080_5);
+        function pop_OrtevonInteresseHamburg2080_6(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (var i in e.target._eventParents) {
@@ -321,12 +335,7 @@
                         <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Adresse</th>\
-                        <td class="visible-with-data" id="adresse">' + (feature.properties['adresse'] !== null ? autolinker.link(String(feature.properties['adresse']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">Lage</th>\
-                        <td class="visible-with-data" id="lage">' + (feature.properties['lage'] !== null ? autolinker.link(String(feature.properties['lage']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <td class="visible-with-data" id="adresse" colspan="2"><strong>Adresse</strong><br />' + (feature.properties['adresse'] !== null ? autolinker.link(String(feature.properties['adresse']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">Eigentümer</th>\
@@ -337,18 +346,11 @@
                         <td class="visible-with-data" id="organisation">' + (feature.properties['organisation'] !== null ? autolinker.link(String(feature.properties['organisation']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Einflussgebiet</th>\
-                        <td class="visible-with-data" id="dominion">' + (feature.properties['dominion'] !== null ? autolinker.link(String(feature.properties['dominion']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">ovityp</th>\
-                        <td class="visible-with-data" id="ovityp">' + (feature.properties['ovityp'] !== null ? autolinker.link(String(feature.properties['ovityp']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
                         <td class="visible-with-data" id="notiz" colspan="2"><strong>Kurzbeschreibung</strong><br />' + (feature.properties['notiz'] !== null ? autolinker.link(String(feature.properties['notiz']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td class="visible-with-data" id="details" colspan="2"><strong>Details</strong><br />' + (feature.properties['details'] !== null ? autolinker.link(String(feature.properties['details']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <th scope="row">wiki</th>\
+                        <td class="visible-with-data" id="wiki">' + (feature.properties['wiki'] !== null ? autolinker.link(String(feature.properties['wiki']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -358,66 +360,146 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_OrtevonInteresseHamburg2080_5_0(feature) {
-            switch(String(feature.properties['ovityp'])) {
-                case 'wohnung':
+        function style_OrtevonInteresseHamburg2080_6_0(feature) {
+            switch(String(feature.properties['typ'])) {
+                case 'Konzerne':
                     return {
-                pane: 'pane_OrtevonInteresseHamburg2080_5',
-                radius: 8.0,
-                opacity: 1,
-                color: 'rgba(50,87,128,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(72,182,168,1.0)',
-                interactive: true,
-            }
-                    break;
-                default:
-                    return {
-                pane: 'pane_OrtevonInteresseHamburg2080_5',
+                pane: 'pane_OrtevonInteresseHamburg2080_6',
                 radius: 6.0,
                 opacity: 1,
                 color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 1,
+                weight: 2.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(122,4,3,1.0)',
+                fillColor: 'rgba(164,113,88,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Schatten':
+                    return {
+                pane: 'pane_OrtevonInteresseHamburg2080_6',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(169,35,35,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Sicherheit':
+                    return {
+                pane: 'pane_OrtevonInteresseHamburg2080_6',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(40,80,231,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Wohnung':
+                    return {
+                pane: 'pane_OrtevonInteresseHamburg2080_6',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(109,255,232,1.0)',
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_OrtevonInteresseHamburg2080_6',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,241,210,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Ausgehen':
+                    return {
+                pane: 'pane_OrtevonInteresseHamburg2080_6',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,106,210,1.0)',
+                interactive: true,
+            }
+                    break;
+                case 'Bars und Kneipen':
+                    return {
+                pane: 'pane_OrtevonInteresseHamburg2080_6',
+                radius: 6.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,241,210,1.0)',
                 interactive: true,
             }
                     break;
             }
         }
-        map.createPane('pane_OrtevonInteresseHamburg2080_5');
-        map.getPane('pane_OrtevonInteresseHamburg2080_5').style.zIndex = 405;
-        map.getPane('pane_OrtevonInteresseHamburg2080_5').style['mix-blend-mode'] = 'normal';
-        var layer_OrtevonInteresseHamburg2080_5 = new L.geoJson(json_OrtevonInteresseHamburg2080_5, {
+        map.createPane('pane_OrtevonInteresseHamburg2080_6');
+        map.getPane('pane_OrtevonInteresseHamburg2080_6').style.zIndex = 406;
+        map.getPane('pane_OrtevonInteresseHamburg2080_6').style['mix-blend-mode'] = 'normal';
+        var layer_OrtevonInteresseHamburg2080_6 = new L.geoJson(json_OrtevonInteresseHamburg2080_6, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_OrtevonInteresseHamburg2080_5',
-            layerName: 'layer_OrtevonInteresseHamburg2080_5',
-            pane: 'pane_OrtevonInteresseHamburg2080_5',
-            onEachFeature: pop_OrtevonInteresseHamburg2080_5,
+            dataVar: 'json_OrtevonInteresseHamburg2080_6',
+            layerName: 'layer_OrtevonInteresseHamburg2080_6',
+            pane: 'pane_OrtevonInteresseHamburg2080_6',
+            onEachFeature: pop_OrtevonInteresseHamburg2080_6,
             pointToLayer: function (feature, latlng) {
                 var context = {
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_OrtevonInteresseHamburg2080_5_0(feature));
+                return L.circleMarker(latlng, style_OrtevonInteresseHamburg2080_6_0(feature));
             },
         });
-        var cluster_OrtevonInteresseHamburg2080_5 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+        var cluster_OrtevonInteresseHamburg2080_6 = new L.MarkerClusterGroup({showCoverageOnHover: false,
             spiderfyDistanceMultiplier: 2});
-        cluster_OrtevonInteresseHamburg2080_5.addLayer(layer_OrtevonInteresseHamburg2080_5);
+        cluster_OrtevonInteresseHamburg2080_6.addLayer(layer_OrtevonInteresseHamburg2080_6);
 
-        bounds_group.addLayer(layer_OrtevonInteresseHamburg2080_5);
-        cluster_OrtevonInteresseHamburg2080_5.addTo(map);
+        bounds_group.addLayer(layer_OrtevonInteresseHamburg2080_6);
+        cluster_OrtevonInteresseHamburg2080_6.addTo(map);
         var osmGeocoder = new L.Control.Geocoder({
             collapsed: true,
             position: 'topleft',
@@ -429,13 +511,15 @@
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .title += 'Search for a place';
         var overlaysTree = [
-            {label: 'Orte von Interesse Hamburg 2080<br /><table><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_5_wohnung0.png" /></td><td>wohnung</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_5_1.png" /></td><td></td></tr></table>', layer: cluster_OrtevonInteresseHamburg2080_5},
+            {label: 'Orte von Interesse Hamburg 2080<br /><table><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Konzerne0.png" /></td><td>Konzerne</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Schatten1.png" /></td><td>Schatten</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Sicherheit2.png" /></td><td>Sicherheit</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Wohnung3.png" /></td><td>Wohnung</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_4.png" /></td><td></td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Ausgehen5.png" /></td><td>Ausgehen</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_BarsundKneipen6.png" /></td><td>Bars und Kneipen</td></tr></table>', layer: cluster_OrtevonInteresseHamburg2080_6},
         {label: '<b>Stadtplan</b>',  selectAllCheckbox: true, children: [
-            {label: '<img src="legend/OrtsteileHamburg2080_4.png" /> Ortsteile Hamburg 2080', layer: layer_OrtsteileHamburg2080_4},
-            {label: '<img src="legend/StadtteileHamburg2080_3.png" /> Stadtteile Hamburg 2080', layer: layer_StadtteileHamburg2080_3},
-            {label: '<img src="legend/BezirkeHamburg2080_2.png" /> Bezirke Hamburg 2080', layer: layer_BezirkeHamburg2080_2},]},
-        {label: '<b>Basis</b>',  selectAllCheckbox: true, children: [
-            {label: "Karte Hamburg (german)_modifiziert", layer: layer_KarteHamburggerman_modifiziert_1},
+            {label: '<img src="legend/OrtsteileHamburg2080_5.png" /> Ortsteile Hamburg 2080', layer: layer_OrtsteileHamburg2080_5},
+            {label: '<img src="legend/StadtteileHamburg2080_4.png" /> Stadtteile Hamburg 2080', layer: layer_StadtteileHamburg2080_4},
+            {label: '<img src="legend/BezirkeHamburg2080_3.png" /> Bezirke Hamburg 2080', layer: layer_BezirkeHamburg2080_3},]},
+        {label: '<b>Pegasus</b>', collapsed: true, selectAllCheckbox: true, children: [
+            {label: "Karte Nur-NeueMittet_modifiziert", layer: layer_KarteNurNeueMittet_modifiziert_2},
+            {label: "Karte Hamburg (german)_modifiziert", layer: layer_KarteHamburggerman_modifiziert_1},]},
+        {label: '<b>Basis</b>', collapsed: true, selectAllCheckbox: true, children: [
             {label: "OpenStreetMap", layer: layer_OpenStreetMap_0, radioGroup: 'bm' },]},]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
@@ -444,60 +528,77 @@
             //openedSymbol: '&#8863; &#x1f5c1;',
             //collapseAll: 'Collapse all',
             //expandAll: 'Expand all',
-            collapsed: false, 
+            collapsed: true,
         });
         lay.addTo(map);
-		document.addEventListener("DOMContentLoaded", function() {
-            // set new Layers List height which considers toggle icon
-            function newLayersListHeight() {
-                var layerScrollbarElement = document.querySelector('.leaflet-control-layers-scrollbar');
-                if (layerScrollbarElement) {
-                    var layersListElement = document.querySelector('.leaflet-control-layers-list');
-                    var originalHeight = layersListElement.style.height 
-                        || window.getComputedStyle(layersListElement).height;
-                    var newHeight = parseFloat(originalHeight) - 50;
-                    layersListElement.style.height = newHeight + 'px';
+        map.on("zoomend", function(){
+
+                if (map.hasLayer(layer_BezirkeHamburg2080_3)) {
+                    if (map.getZoom() <= 9 && map.getZoom() >= 11) {
+                        layer_BezirkeHamburg2080_3.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_BezirkeHamburg2080_3.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
                 }
-            }
-            var isLayersListExpanded = true;
-            var controlLayersElement = document.querySelector('.leaflet-control-layers');
-            var toggleLayerControl = document.querySelector('.leaflet-control-layers-toggle');
-            // toggle Collapsed/Expanded and apply new Layers List height
-            toggleLayerControl.addEventListener('click', function() {
-                if (isLayersListExpanded) {
-                    controlLayersElement.classList.remove('leaflet-control-layers-expanded');
-                } else {
-                    controlLayersElement.classList.add('leaflet-control-layers-expanded');
+                if (map.hasLayer(layer_StadtteileHamburg2080_4)) {
+                    if (map.getZoom() <= 11 && map.getZoom() >= 15) {
+                        layer_StadtteileHamburg2080_4.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_StadtteileHamburg2080_4.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
                 }
-                isLayersListExpanded = !isLayersListExpanded;
-                newLayersListHeight()
-            });	
-			// apply new Layers List height if toggle layerstree
-			if (controlLayersElement) {
-				controlLayersElement.addEventListener('click', function(event) {
-					var toggleLayerHeaderPointer = event.target.closest('.leaflet-layerstree-header-pointer span');
-					if (toggleLayerHeaderPointer) {
-						newLayersListHeight();
-					}
-				});
-			}
-            // Collapsed/Expanded at Start to apply new height
-            setTimeout(function() {
-                toggleLayerControl.click();
-            }, 10);
-            setTimeout(function() {
-                toggleLayerControl.click();
-            }, 10);
-            // Collapsed touch/small screen
-            var isSmallScreen = window.innerWidth < 650;
-            if (isSmallScreen) {
-                setTimeout(function() {
-                    controlLayersElement.classList.remove('leaflet-control-layers-expanded');
-                    isLayersListExpanded = !isLayersListExpanded;
-                }, 500);
-            }  
-        });       
+        });
         setBounds();
+        var i = 0;
+        layer_BezirkeHamburg2080_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #b01129; font-size: 17pt; font-family: \'Segoe UI Black\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_BezirkeHamburg2080_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+                if (map.hasLayer(layer_BezirkeHamburg2080_3)) {
+                    if (map.getZoom() <= 9 && map.getZoom() >= 11) {
+                        layer_BezirkeHamburg2080_3.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_BezirkeHamburg2080_3.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
+                }
+                if (map.hasLayer(layer_StadtteileHamburg2080_4)) {
+                    if (map.getZoom() <= 11 && map.getZoom() >= 15) {
+                        layer_StadtteileHamburg2080_4.eachLayer(function (layer) {
+                            layer.openTooltip();
+                        });
+                    } else {
+                        layer_StadtteileHamburg2080_4.eachLayer(function (layer) {
+                            layer.closeTooltip();
+                        });
+                    }
+                }
+        map.addControl(new L.Control.Search({
+            layer: cluster_OrtevonInteresseHamburg2080_6,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'name'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
         var mapDiv = document.getElementById('map');
         var row = document.createElement('div');
         row.className="row";
@@ -517,7 +618,7 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
-        var Filters = {"ovityp": "str","organisation": "str","name": "str"};
+        var Filters = {"organisation": "str","typ": "str","wohn": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
           if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -604,39 +705,22 @@
             }
           this[lyr["options"]["layerName"]].clearLayers();
           this[lyr["options"]["layerName"]].addData(features);
+        var i = 0;
+        layer_BezirkeHamburg2080_3.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['name'] !== null?String('<div style="color: #b01129; font-size: 17pt; font-family: \'Segoe UI Black\', sans-serif;">' + layer.feature.properties['name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_BezirkeHamburg2080_3'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
           }
           })
         }
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_ovityp = document.createElement('div');
-            div_ovityp.id = "div_ovityp";
-            div_ovityp.className= "filterselect";
-            document.getElementById("menu").appendChild(div_ovityp);
-            sel_ovityp = document.createElement('select');
-            sel_ovityp.multiple = true;
-            sel_ovityp.size = 1;
-            sel_ovityp.id = "sel_ovityp";
-            var ovityp_options_str = "<option value='' unselected></option>";
-            sel_ovityp.onchange = function(){filterFunc()};
-            ovityp_options_str  += '<option value="wohnung">wohnung</option>';
-            sel_ovityp.innerHTML = ovityp_options_str;
-            div_ovityp.appendChild(sel_ovityp);
-            var lab_ovityp = document.createElement('div');
-            lab_ovityp.innerHTML = 'ovityp';
-            lab_ovityp.className = 'filterlabel';
-            div_ovityp.appendChild(lab_ovityp);
-            var reset_ovityp = document.createElement('div');
-            reset_ovityp.innerHTML = 'clear filter';
-            reset_ovityp.className = 'filterlabel';
-            reset_ovityp.onclick = function() {
-                var options = document.getElementById("sel_ovityp").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_ovityp.appendChild(reset_ovityp);
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
             var div_organisation = document.createElement('div');
@@ -645,12 +729,16 @@
             document.getElementById("menu").appendChild(div_organisation);
             sel_organisation = document.createElement('select');
             sel_organisation.multiple = true;
-            sel_organisation.size = 2;
+            sel_organisation.size = 6;
             sel_organisation.id = "sel_organisation";
             var organisation_options_str = "<option value='' unselected></option>";
             sel_organisation.onchange = function(){filterFunc()};
             organisation_options_str  += '<option value="NULL">NULL</option>';
+            organisation_options_str  += '<option value="Freie Hansestadt Hamburg">Freie Hansestadt Hamburg</option>';
+            organisation_options_str  += '<option value="Hamburger Admiralitätskollegium">Hamburger Admiralitätskollegium</option>';
+            organisation_options_str  += '<option value="Krupp-Group">Krupp-Group</option>';
             organisation_options_str  += '<option value="Triaden">Triaden</option>';
+            organisation_options_str  += '<option value="Wuxing Incorporated">Wuxing Incorporated</option>';
             sel_organisation.innerHTML = organisation_options_str;
             div_organisation.appendChild(sel_organisation);
             var lab_organisation = document.createElement('div');
@@ -670,371 +758,90 @@
             div_organisation.appendChild(reset_organisation);
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
-            var div_name = document.createElement('div');
-            div_name.id = "div_name";
-            div_name.className= "filterselect";
-            document.getElementById("menu").appendChild(div_name);
-            sel_name = document.createElement('select');
-            sel_name.multiple = true;
-            sel_name.size = 10;
-            sel_name.id = "sel_name";
-            var name_options_str = "<option value='' unselected></option>";
-            sel_name.onchange = function(){filterFunc()};
-            name_options_str  += '<option value="Agathenburg">Agathenburg</option>';
-            name_options_str  += '<option value="Ahlerstedt">Ahlerstedt</option>';
-            name_options_str  += '<option value="Ahrensburg">Ahrensburg</option>';
-            name_options_str  += '<option value="Allermöhe">Allermöhe</option>';
-            name_options_str  += '<option value="Alsterdorf">Alsterdorf</option>';
-            name_options_str  += '<option value="Altengamme">Altengamme</option>';
-            name_options_str  += '<option value="Altona">Altona</option>';
-            name_options_str  += '<option value="Altona-Altstadt">Altona-Altstadt</option>';
-            name_options_str  += '<option value="Altona-Nord">Altona-Nord</option>';
-            name_options_str  += '<option value="Alveslohe">Alveslohe</option>';
-            name_options_str  += '<option value="Ammersbek">Ammersbek</option>';
-            name_options_str  += '<option value="Apensen">Apensen</option>';
-            name_options_str  += '<option value="Appel">Appel</option>';
-            name_options_str  += '<option value="Appen">Appen</option>';
-            name_options_str  += '<option value="Aumühle">Aumühle</option>';
-            name_options_str  += '<option value="Bad Bramstedt">Bad Bramstedt</option>';
-            name_options_str  += '<option value="Bahrenfeld">Bahrenfeld</option>';
-            name_options_str  += '<option value="Balje">Balje</option>';
-            name_options_str  += '<option value="Bargfeld-Stegen">Bargfeld-Stegen</option>';
-            name_options_str  += '<option value="Bargstedt">Bargstedt</option>';
-            name_options_str  += '<option value="Barmbek-Nord">Barmbek-Nord</option>';
-            name_options_str  += '<option value="Barmbek-Süd">Barmbek-Süd</option>';
-            name_options_str  += '<option value="Barmstedt">Barmstedt</option>';
-            name_options_str  += '<option value="Barsbüttel">Barsbüttel</option>';
-            name_options_str  += '<option value="Basedow">Basedow</option>';
-            name_options_str  += '<option value="Beckdorf">Beckdorf</option>';
-            name_options_str  += '<option value="Bendestorf">Bendestorf</option>';
-            name_options_str  += '<option value="Bergedorf">Bergedorf</option>';
-            name_options_str  += '<option value="Bergstedt">Bergstedt</option>';
-            name_options_str  += '<option value="Bevern">Bevern</option>';
-            name_options_str  += '<option value="Billbrook">Billbrook</option>';
-            name_options_str  += '<option value="Billstedt">Billstedt</option>';
-            name_options_str  += '<option value="Billwerder">Billwerder</option>';
-            name_options_str  += '<option value="Bilsen">Bilsen</option>';
-            name_options_str  += '<option value="Blankenese">Blankenese</option>';
-            name_options_str  += '<option value="Bliedersdorf">Bliedersdorf</option>';
-            name_options_str  += '<option value="Boizenburg/Elbe">Boizenburg/Elbe</option>';
-            name_options_str  += '<option value="Bokel">Bokel</option>';
-            name_options_str  += '<option value="Bokholt-Hanredder">Bokholt-Hanredder</option>';
-            name_options_str  += '<option value="Borgfelde">Borgfelde</option>';
-            name_options_str  += '<option value="Borsfleth">Borsfleth</option>';
-            name_options_str  += '<option value="Borstel-Hohenraden">Borstel-Hohenraden</option>';
-            name_options_str  += '<option value="Braak">Braak</option>';
-            name_options_str  += '<option value="Brackel">Brackel</option>';
-            name_options_str  += '<option value="Bramfeld">Bramfeld</option>';
-            name_options_str  += '<option value="Brande-Hörnerkirchen">Brande-Hörnerkirchen</option>';
-            name_options_str  += '<option value="Brest">Brest</option>';
-            name_options_str  += '<option value="Brokdorf">Brokdorf</option>';
-            name_options_str  += '<option value="Brunsbek">Brunsbek</option>';
-            name_options_str  += '<option value="Brunsbüttel">Brunsbüttel</option>';
-            name_options_str  += '<option value="Brunstorf">Brunstorf</option>';
-            name_options_str  += '<option value="Bröthen">Bröthen</option>';
-            name_options_str  += '<option value="Buchholz in der Nordheide">Buchholz in der Nordheide</option>';
-            name_options_str  += '<option value="Buchhorst">Buchhorst</option>';
-            name_options_str  += '<option value="Bullenkuhlen">Bullenkuhlen</option>';
-            name_options_str  += '<option value="Burweg">Burweg</option>';
-            name_options_str  += '<option value="Buxtehude">Buxtehude</option>';
-            name_options_str  += '<option value="Bönningstedt">Bönningstedt</option>';
-            name_options_str  += '<option value="Börnsen">Börnsen</option>';
-            name_options_str  += '<option value="Büchen">Büchen</option>';
-            name_options_str  += '<option value="Büttel">Büttel</option>';
-            name_options_str  += '<option value="City Nord">City Nord</option>';
-            name_options_str  += '<option value="Cranz">Cranz</option>';
-            name_options_str  += '<option value="Curslack">Curslack</option>';
-            name_options_str  += '<option value="Dahmker">Dahmker</option>';
-            name_options_str  += '<option value="Dalldorf">Dalldorf</option>';
-            name_options_str  += '<option value="Dassendorf">Dassendorf</option>';
-            name_options_str  += '<option value="Deinste">Deinste</option>';
-            name_options_str  += '<option value="Dollern">Dollern</option>';
-            name_options_str  += '<option value="Drage">Drage</option>';
-            name_options_str  += '<option value="Drestedt">Drestedt</option>';
-            name_options_str  += '<option value="Drochtersen">Drochtersen</option>';
-            name_options_str  += '<option value="Dulsberg">Dulsberg</option>';
-            name_options_str  += '<option value="Duvenstedt">Duvenstedt</option>';
-            name_options_str  += '<option value="Dädalus Wohnung">Dädalus Wohnung</option>';
-            name_options_str  += '<option value="Düdenbüttel">Düdenbüttel</option>';
-            name_options_str  += '<option value="Eidelstedt">Eidelstedt</option>';
-            name_options_str  += '<option value="Eilbek">Eilbek</option>';
-            name_options_str  += '<option value="Eimsbüttel">Eimsbüttel</option>';
-            name_options_str  += '<option value="Eißendorf">Eißendorf</option>';
-            name_options_str  += '<option value="Ellerau">Ellerau</option>';
-            name_options_str  += '<option value="Ellerbek">Ellerbek</option>';
-            name_options_str  += '<option value="Ellerhoop">Ellerhoop</option>';
-            name_options_str  += '<option value="Elmenhorst">Elmenhorst</option>';
-            name_options_str  += '<option value="Elmshorn">Elmshorn</option>';
-            name_options_str  += '<option value="Engelschoff">Engelschoff</option>';
-            name_options_str  += '<option value="Eppendorf">Eppendorf</option>';
-            name_options_str  += '<option value="Escheburg">Escheburg</option>';
-            name_options_str  += '<option value="Estorf">Estorf</option>';
-            name_options_str  += '<option value="Farmsen-Berne">Farmsen-Berne</option>';
-            name_options_str  += '<option value="Fitzen">Fitzen</option>';
-            name_options_str  += '<option value="Francop">Francop</option>';
-            name_options_str  += '<option value="Fredenbeck">Fredenbeck</option>';
-            name_options_str  += '<option value="Freiburg (Elbe)">Freiburg (Elbe)</option>';
-            name_options_str  += '<option value="Fuhlenhagen">Fuhlenhagen</option>';
-            name_options_str  += '<option value="Fuhlsbüttel">Fuhlsbüttel</option>';
-            name_options_str  += '<option value="Geesthacht">Geesthacht</option>';
-            name_options_str  += '<option value="Glinde">Glinde</option>';
-            name_options_str  += '<option value="Glückstadt">Glückstadt</option>';
-            name_options_str  += '<option value="Grabau">Grabau</option>';
-            name_options_str  += '<option value="Grande">Grande</option>';
-            name_options_str  += '<option value="Grove">Grove</option>';
-            name_options_str  += '<option value="Groß Borstel">Groß Borstel</option>';
-            name_options_str  += '<option value="Groß Flottbek">Groß Flottbek</option>';
-            name_options_str  += '<option value="Groß Offenseth-Aspern">Groß Offenseth-Aspern</option>';
-            name_options_str  += '<option value="Groß Pampau">Groß Pampau</option>';
-            name_options_str  += '<option value="Großensee">Großensee</option>';
-            name_options_str  += '<option value="Großenwörden">Großenwörden</option>';
-            name_options_str  += '<option value="Großhansdorf">Großhansdorf</option>';
-            name_options_str  += '<option value="Grünendeich">Grünendeich</option>';
-            name_options_str  += '<option value="Guderhandviertel">Guderhandviertel</option>';
-            name_options_str  += '<option value="Gülzow">Gülzow</option>';
-            name_options_str  += '<option value="Güster">Güster</option>';
-            name_options_str  += '<option value="Hafen">Hafen</option>';
-            name_options_str  += '<option value="Halstenbek">Halstenbek</option>';
-            name_options_str  += '<option value="Halvesbostel">Halvesbostel</option>';
-            name_options_str  += '<option value="Hamburg">Hamburg</option>';
-            name_options_str  += '<option value="Hamburg-Altstadt">Hamburg-Altstadt</option>';
-            name_options_str  += '<option value="Hamfelde">Hamfelde</option>';
-            name_options_str  += '<option value="Hamm">Hamm</option>';
-            name_options_str  += '<option value="Hammah">Hammah</option>';
-            name_options_str  += '<option value="Hammerbrook">Hammerbrook</option>';
-            name_options_str  += '<option value="Hamwarde">Hamwarde</option>';
-            name_options_str  += '<option value="Harburg">Harburg</option>';
-            name_options_str  += '<option value="Harmstorf">Harmstorf</option>';
-            name_options_str  += '<option value="Harsefeld">Harsefeld</option>';
-            name_options_str  += '<option value="Harvestehude">Harvestehude</option>';
-            name_options_str  += '<option value="Haselau">Haselau</option>';
-            name_options_str  += '<option value="Hasenmoor">Hasenmoor</option>';
-            name_options_str  += '<option value="Hasloh">Hasloh</option>';
-            name_options_str  += '<option value="Hausbruch">Hausbruch</option>';
-            name_options_str  += '<option value="Havekost">Havekost</option>';
-            name_options_str  += '<option value="Heede">Heede</option>';
-            name_options_str  += '<option value="Heidgraben">Heidgraben</option>';
-            name_options_str  += '<option value="Heidmoor">Heidmoor</option>';
-            name_options_str  += '<option value="Heimfeld">Heimfeld</option>';
-            name_options_str  += '<option value="Heinbockel">Heinbockel</option>';
-            name_options_str  += '<option value="Heist">Heist</option>';
-            name_options_str  += '<option value="Hemdingen">Hemdingen</option>';
-            name_options_str  += '<option value="Henstedt-Ulzburg">Henstedt-Ulzburg</option>';
-            name_options_str  += '<option value="Hetlingen">Hetlingen</option>';
-            name_options_str  += '<option value="Himmelpforten">Himmelpforten</option>';
-            name_options_str  += '<option value="Hoheluft-Ost">Hoheluft-Ost</option>';
-            name_options_str  += '<option value="Hoheluft-West">Hoheluft-West</option>';
-            name_options_str  += '<option value="Hohenfelde">Hohenfelde</option>';
-            name_options_str  += '<option value="Hohenhorn">Hohenhorn</option>';
-            name_options_str  += '<option value="Hoisdorf">Hoisdorf</option>';
-            name_options_str  += '<option value="Hollenstedt">Hollenstedt</option>';
-            name_options_str  += '<option value="Hollern-Twielenfleth">Hollern-Twielenfleth</option>';
-            name_options_str  += '<option value="Holm">Holm</option>';
-            name_options_str  += '<option value="Horn">Horn</option>';
-            name_options_str  += '<option value="Hornbek">Hornbek</option>';
-            name_options_str  += '<option value="Horneburg">Horneburg</option>';
-            name_options_str  += '<option value="Horst (Holstein)">Horst (Holstein)</option>';
-            name_options_str  += '<option value="Hummelsbüttel">Hummelsbüttel</option>';
-            name_options_str  += '<option value="Hüttblek">Hüttblek</option>';
-            name_options_str  += '<option value="Iserbrook">Iserbrook</option>';
-            name_options_str  += '<option value="Itzstedt">Itzstedt</option>';
-            name_options_str  += '<option value="Jenfeld">Jenfeld</option>';
-            name_options_str  += '<option value="Jersbek">Jersbek</option>';
-            name_options_str  += '<option value="Jesteburg">Jesteburg</option>';
-            name_options_str  += '<option value="Jork">Jork</option>';
-            name_options_str  += '<option value="Juliusburg">Juliusburg</option>';
-            name_options_str  += '<option value="Kaltenkirchen">Kaltenkirchen</option>';
-            name_options_str  += '<option value="Kankelau">Kankelau</option>';
-            name_options_str  += '<option value="Karoviertel">Karoviertel</option>';
-            name_options_str  += '<option value="Kasseburg">Kasseburg</option>';
-            name_options_str  += '<option value="Kattendorf">Kattendorf</option>';
-            name_options_str  += '<option value="Kayhude">Kayhude</option>';
-            name_options_str  += '<option value="Kirchwerder">Kirchwerder</option>';
-            name_options_str  += '<option value="Kisdorf">Kisdorf</option>';
-            name_options_str  += '<option value="Klein Nordende">Klein Nordende</option>';
-            name_options_str  += '<option value="Klein Offenseth-Sparrieshoop">Klein Offenseth-Sparrieshoop</option>';
-            name_options_str  += '<option value="Klein Pampau">Klein Pampau</option>';
-            name_options_str  += '<option value="Kollmar">Kollmar</option>';
-            name_options_str  += '<option value="Kollow">Kollow</option>';
-            name_options_str  += '<option value="Kranenburg">Kranenburg</option>';
-            name_options_str  += '<option value="Krukow">Krukow</option>';
-            name_options_str  += '<option value="Krummendeich">Krummendeich</option>';
-            name_options_str  += '<option value="Kröppelshagen-Fahrendorf">Kröppelshagen-Fahrendorf</option>';
-            name_options_str  += '<option value="Krüzen">Krüzen</option>';
-            name_options_str  += '<option value="Kuddewörde">Kuddewörde</option>';
-            name_options_str  += '<option value="Kummerfeld">Kummerfeld</option>';
-            name_options_str  += '<option value="Kutenholz">Kutenholz</option>';
-            name_options_str  += '<option value="Kölln-Reisiek">Kölln-Reisiek</option>';
-            name_options_str  += '<option value="Langeln">Langeln</option>';
-            name_options_str  += '<option value="Langenbek">Langenbek</option>';
-            name_options_str  += '<option value="Langenhorn">Langenhorn</option>';
-            name_options_str  += '<option value="Lanze">Lanze</option>';
-            name_options_str  += '<option value="Lauenburg/Elbe">Lauenburg/Elbe</option>';
-            name_options_str  += '<option value="Lemsahl-Mellingstedt">Lemsahl-Mellingstedt</option>';
-            name_options_str  += '<option value="Lentföhrden">Lentföhrden</option>';
-            name_options_str  += '<option value="Lohbrügge">Lohbrügge</option>';
-            name_options_str  += '<option value="Lokstedt">Lokstedt</option>';
-            name_options_str  += '<option value="Lurup">Lurup</option>';
-            name_options_str  += '<option value="Lutzhorn">Lutzhorn</option>';
-            name_options_str  += '<option value="Lütau">Lütau</option>';
-            name_options_str  += '<option value="Marienthal">Marienthal</option>';
-            name_options_str  += '<option value="Marmstorf">Marmstorf</option>';
-            name_options_str  += '<option value="Marschacht">Marschacht</option>';
-            name_options_str  += '<option value="Marxen">Marxen</option>';
-            name_options_str  += '<option value="Mittelnkirchen">Mittelnkirchen</option>';
-            name_options_str  += '<option value="Moisburg">Moisburg</option>';
-            name_options_str  += '<option value="Moorburg und Altenwerder">Moorburg und Altenwerder</option>';
-            name_options_str  += '<option value="Moorfleet">Moorfleet</option>';
-            name_options_str  += '<option value="Moorrege">Moorrege</option>';
-            name_options_str  += '<option value="Möhnsen">Möhnsen</option>';
-            name_options_str  += '<option value="Mönkloh">Mönkloh</option>';
-            name_options_str  += '<option value="Müssen">Müssen</option>';
-            name_options_str  += '<option value="Nahe">Nahe</option>';
-            name_options_str  += '<option value="Neu Wulmstorf">Neu Wulmstorf</option>';
-            name_options_str  += '<option value="Neuallermöhe">Neuallermöhe</option>';
-            name_options_str  += '<option value="Neue HafenCity">Neue HafenCity</option>';
-            name_options_str  += '<option value="Neue-Mitte">Neue-Mitte</option>';
-            name_options_str  += '<option value="Neuendorf b.Elmshorn">Neuendorf b.Elmshorn</option>';
-            name_options_str  += '<option value="Neuenfelde">Neuenfelde</option>';
-            name_options_str  += '<option value="Neuengamme">Neuengamme</option>';
-            name_options_str  += '<option value="Neuenkirchen">Neuenkirchen</option>';
-            name_options_str  += '<option value="Neugraben-Fischbek">Neugraben-Fischbek</option>';
-            name_options_str  += '<option value="Neuland und Gut Moor">Neuland und Gut Moor</option>';
-            name_options_str  += '<option value="Neustadt">Neustadt</option>';
-            name_options_str  += '<option value="Niendorf">Niendorf</option>';
-            name_options_str  += '<option value="Nienstedten">Nienstedten</option>';
-            name_options_str  += '<option value="Nienwohld">Nienwohld</option>';
-            name_options_str  += '<option value="Norderstedt">Norderstedt</option>';
-            name_options_str  += '<option value="Nostorf">Nostorf</option>';
-            name_options_str  += '<option value="Nottensdorf">Nottensdorf</option>';
-            name_options_str  += '<option value="Nützen">Nützen</option>';
-            name_options_str  += '<option value="Ochsenwerder">Ochsenwerder</option>';
-            name_options_str  += '<option value="Oederquart">Oederquart</option>';
-            name_options_str  += '<option value="Oering">Oering</option>';
-            name_options_str  += '<option value="Oersdorf">Oersdorf</option>';
-            name_options_str  += '<option value="Ohlsdorf">Ohlsdorf</option>';
-            name_options_str  += '<option value="Oldendorf">Oldendorf</option>';
-            name_options_str  += '<option value="Osdorf">Osdorf</option>';
-            name_options_str  += '<option value="Osterhorn">Osterhorn</option>';
-            name_options_str  += '<option value="Oststeinbek">Oststeinbek</option>';
-            name_options_str  += '<option value="Othmarschen">Othmarschen</option>';
-            name_options_str  += '<option value="Ottensen">Ottensen</option>';
-            name_options_str  += '<option value="Pinneberg">Pinneberg</option>';
-            name_options_str  += '<option value="Pitch&apos;s Wohnung">Pitch&apos;s Wohnung</option>';
-            name_options_str  += '<option value="Poppenbüttel">Poppenbüttel</option>';
-            name_options_str  += '<option value="Prisdorf">Prisdorf</option>';
-            name_options_str  += '<option value="Quickborn">Quickborn</option>';
-            name_options_str  += '<option value="Rahlstedt">Rahlstedt</option>';
-            name_options_str  += '<option value="Rausdorf">Rausdorf</option>';
-            name_options_str  += '<option value="Regesbostel">Regesbostel</option>';
-            name_options_str  += '<option value="Reinbek">Reinbek</option>';
-            name_options_str  += '<option value="Reitbrook">Reitbrook</option>';
-            name_options_str  += '<option value="Rellingen">Rellingen</option>';
-            name_options_str  += '<option value="Rethwisch">Rethwisch</option>';
-            name_options_str  += '<option value="Rissen">Rissen</option>';
-            name_options_str  += '<option value="Roseburg">Roseburg</option>';
-            name_options_str  += '<option value="Rosengarten">Rosengarten</option>';
-            name_options_str  += '<option value="Rothenburgsort">Rothenburgsort</option>';
-            name_options_str  += '<option value="Rotherbaum">Rotherbaum</option>';
-            name_options_str  += '<option value="Rönneburg">Rönneburg</option>';
-            name_options_str  += '<option value="Sachsenwald (Forstgutsbez.)">Sachsenwald (Forstgutsbez.)</option>';
-            name_options_str  += '<option value="Sahms">Sahms</option>';
-            name_options_str  += '<option value="Sankt Margarethen">Sankt Margarethen</option>';
-            name_options_str  += '<option value="Sasel">Sasel</option>';
-            name_options_str  += '<option value="Sauensiek">Sauensiek</option>';
-            name_options_str  += '<option value="Sayas Wohnung">Sayas Wohnung</option>';
-            name_options_str  += '<option value="Schenefeld">Schenefeld</option>';
-            name_options_str  += '<option value="Schmalfeld">Schmalfeld</option>';
-            name_options_str  += '<option value="Schnakenbek">Schnakenbek</option>';
-            name_options_str  += '<option value="Schnelsen">Schnelsen</option>';
-            name_options_str  += '<option value="Schulendorf">Schulendorf</option>';
-            name_options_str  += '<option value="Schwanheide">Schwanheide</option>';
-            name_options_str  += '<option value="Schwarzenbek">Schwarzenbek</option>';
-            name_options_str  += '<option value="Seestermühe">Seestermühe</option>';
-            name_options_str  += '<option value="Seeth-Ekholt">Seeth-Ekholt</option>';
-            name_options_str  += '<option value="Seevetal">Seevetal</option>';
-            name_options_str  += '<option value="Seth">Seth</option>';
-            name_options_str  += '<option value="Siebeneichen">Siebeneichen</option>';
-            name_options_str  += '<option value="Siek">Siek</option>';
-            name_options_str  += '<option value="Sievershütten">Sievershütten</option>';
-            name_options_str  += '<option value="Silberhansls Wohnung">Silberhansls Wohnung</option>';
-            name_options_str  += '<option value="Sinstorf">Sinstorf</option>';
-            name_options_str  += '<option value="Sommerland">Sommerland</option>';
-            name_options_str  += '<option value="Spadenland">Spadenland</option>';
-            name_options_str  += '<option value="St. Georg">St. Georg</option>';
-            name_options_str  += '<option value="St. Pauli">St. Pauli</option>';
-            name_options_str  += '<option value="Stade">Stade</option>';
-            name_options_str  += '<option value="Stapelfeld">Stapelfeld</option>';
-            name_options_str  += '<option value="Steilshoop">Steilshoop</option>';
-            name_options_str  += '<option value="Steinkirchen">Steinkirchen</option>';
-            name_options_str  += '<option value="Stelle">Stelle</option>';
-            name_options_str  += '<option value="Stellingen">Stellingen</option>';
-            name_options_str  += '<option value="Sternschanze">Sternschanze</option>';
-            name_options_str  += '<option value="Struvenhütten">Struvenhütten</option>';
-            name_options_str  += '<option value="Stuvenborn">Stuvenborn</option>';
-            name_options_str  += '<option value="Süderau">Süderau</option>';
-            name_options_str  += '<option value="Sülfeld">Sülfeld</option>';
-            name_options_str  += '<option value="Sülldorf">Sülldorf</option>';
-            name_options_str  += '<option value="Talkau">Talkau</option>';
-            name_options_str  += '<option value="Tangstedt">Tangstedt</option>';
-            name_options_str  += '<option value="Tatenberg">Tatenberg</option>';
-            name_options_str  += '<option value="Tespe">Tespe</option>';
-            name_options_str  += '<option value="Todendorf">Todendorf</option>';
-            name_options_str  += '<option value="Todesfelde">Todesfelde</option>';
-            name_options_str  += '<option value="Tonndorf">Tonndorf</option>';
-            name_options_str  += '<option value="Tornesch">Tornesch</option>';
-            name_options_str  += '<option value="Tramm">Tramm</option>';
-            name_options_str  += '<option value="Uetersen">Uetersen</option>';
-            name_options_str  += '<option value="Uhlenhorst">Uhlenhorst</option>';
-            name_options_str  += '<option value="Veddel">Veddel</option>';
-            name_options_str  += '<option value="Volksdorf">Volksdorf</option>';
-            name_options_str  += '<option value="Wakendorf II">Wakendorf II</option>';
-            name_options_str  += '<option value="Waltershof und Finkenwerder">Waltershof und Finkenwerder</option>';
-            name_options_str  += '<option value="Wandsbek">Wandsbek</option>';
-            name_options_str  += '<option value="Wangelau">Wangelau</option>';
-            name_options_str  += '<option value="Weddelbrook">Weddelbrook</option>';
-            name_options_str  += '<option value="Wedel">Wedel</option>';
-            name_options_str  += '<option value="Wellingsbüttel">Wellingsbüttel</option>';
-            name_options_str  += '<option value="Wentorf bei Hamburg">Wentorf bei Hamburg</option>';
-            name_options_str  += '<option value="Wenzendorf">Wenzendorf</option>';
-            name_options_str  += '<option value="Westerhorn">Westerhorn</option>';
-            name_options_str  += '<option value="Wewelsfleth">Wewelsfleth</option>';
-            name_options_str  += '<option value="Wiershop">Wiershop</option>';
-            name_options_str  += '<option value="Wildost">Wildost</option>';
-            name_options_str  += '<option value="Wilhelmsburg">Wilhelmsburg</option>';
-            name_options_str  += '<option value="Wilstorf">Wilstorf</option>';
-            name_options_str  += '<option value="Winsen">Winsen</option>';
-            name_options_str  += '<option value="Winsen (Luhe)">Winsen (Luhe)</option>';
-            name_options_str  += '<option value="Winterhude">Winterhude</option>';
-            name_options_str  += '<option value="Wischhafen">Wischhafen</option>';
-            name_options_str  += '<option value="Witzeeze">Witzeeze</option>';
-            name_options_str  += '<option value="Witzhave">Witzhave</option>';
-            name_options_str  += '<option value="Wohldorf-Ohlstedt">Wohldorf-Ohlstedt</option>';
-            name_options_str  += '<option value="Wohltorf">Wohltorf</option>';
-            name_options_str  += '<option value="Woltersdorf">Woltersdorf</option>';
-            name_options_str  += '<option value="Worth">Worth</option>';
-            name_options_str  += '<option value="Wulfsen">Wulfsen</option>';
-            sel_name.innerHTML = name_options_str;
-            div_name.appendChild(sel_name);
-            var lab_name = document.createElement('div');
-            lab_name.innerHTML = 'name';
-            lab_name.className = 'filterlabel';
-            div_name.appendChild(lab_name);
-            var reset_name = document.createElement('div');
-            reset_name.innerHTML = 'clear filter';
-            reset_name.className = 'filterlabel';
-            reset_name.onclick = function() {
-                var options = document.getElementById("sel_name").options;
+            var div_typ = document.createElement('div');
+            div_typ.id = "div_typ";
+            div_typ.className= "filterselect";
+            document.getElementById("menu").appendChild(div_typ);
+            sel_typ = document.createElement('select');
+            sel_typ.multiple = true;
+            sel_typ.size = 6;
+            sel_typ.id = "sel_typ";
+            var typ_options_str = "<option value='' unselected></option>";
+            sel_typ.onchange = function(){filterFunc()};
+            typ_options_str  += '<option value="Ausgehen">Ausgehen</option>';
+            typ_options_str  += '<option value="Bars und Kneipen">Bars und Kneipen</option>';
+            typ_options_str  += '<option value="Konzerne">Konzerne</option>';
+            typ_options_str  += '<option value="Schatten">Schatten</option>';
+            typ_options_str  += '<option value="Sicherheit">Sicherheit</option>';
+            typ_options_str  += '<option value="Wohnung">Wohnung</option>';
+            sel_typ.innerHTML = typ_options_str;
+            div_typ.appendChild(sel_typ);
+            var lab_typ = document.createElement('div');
+            lab_typ.innerHTML = 'typ';
+            lab_typ.className = 'filterlabel';
+            div_typ.appendChild(lab_typ);
+            var reset_typ = document.createElement('div');
+            reset_typ.innerHTML = 'clear filter';
+            reset_typ.className = 'filterlabel';
+            reset_typ.onclick = function() {
+                var options = document.getElementById("sel_typ").options;
                 for (var i=0; i < options.length; i++) {
                     options[i].selected = false;
                 }
                 filterFunc();
             };
-            div_name.appendChild(reset_name);
+            div_typ.appendChild(reset_typ);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_wohn = document.createElement('div');
+            div_wohn.id = "div_wohn";
+            div_wohn.className= "filterselect";
+            document.getElementById("menu").appendChild(div_wohn);
+            sel_wohn = document.createElement('select');
+            sel_wohn.multiple = true;
+            sel_wohn.size = 8;
+            sel_wohn.id = "sel_wohn";
+            var wohn_options_str = "<option value='' unselected></option>";
+            sel_wohn.onchange = function(){filterFunc()};
+            wohn_options_str  += '<option value="NULL">NULL</option>';
+            wohn_options_str  += '<option value="A">A</option>';
+            wohn_options_str  += '<option value="AA">AA</option>';
+            wohn_options_str  += '<option value="AAA">AAA</option>';
+            wohn_options_str  += '<option value="B">B</option>';
+            wohn_options_str  += '<option value="C">C</option>';
+            wohn_options_str  += '<option value="D">D</option>';
+            wohn_options_str  += '<option value="Z">Z</option>';
+            sel_wohn.innerHTML = wohn_options_str;
+            div_wohn.appendChild(sel_wohn);
+            var lab_wohn = document.createElement('div');
+            lab_wohn.innerHTML = 'wohn';
+            lab_wohn.className = 'filterlabel';
+            div_wohn.appendChild(lab_wohn);
+            var reset_wohn = document.createElement('div');
+            reset_wohn.innerHTML = 'clear filter';
+            reset_wohn.className = 'filterlabel';
+            reset_wohn.onclick = function() {
+                var options = document.getElementById("sel_wohn").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_wohn.appendChild(reset_wohn);
         L.ImageOverlay.include({
             getBounds: function () {
                 return this._bounds;
             }
+        });
+        resetLabels([layer_BezirkeHamburg2080_3,layer_StadtteileHamburg2080_4,layer_OrtevonInteresseHamburg2080_6]);
+        map.on("zoomend", function(){
+            resetLabels([layer_BezirkeHamburg2080_3,layer_StadtteileHamburg2080_4,layer_OrtevonInteresseHamburg2080_6]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_BezirkeHamburg2080_3,layer_StadtteileHamburg2080_4,layer_OrtevonInteresseHamburg2080_6]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_BezirkeHamburg2080_3,layer_StadtteileHamburg2080_4,layer_OrtevonInteresseHamburg2080_6]);
         });
         </script>
     </body>
