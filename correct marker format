@@ -1,0 +1,22 @@
+                    break;
+                case 'Wohnung':
+                    return {
+                pane: 'pane_OrtevonInteresseHamburg2080_6',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/blue_house.svg',
+                    iconSize: [19, 19]
+                }),
+                // radius: 8.0,
+                // opacity: 1,
+                // color: 'rgba(35,35,35,1.0)',
+                // dashArray: '',
+                // lineCap: 'butt',
+                // lineJoin: 'miter',
+                // weight: 1.0,
+                // fill: true,
+                // fillOpacity: 1,
+                // fillColor: 'rgba(184,29,2,1.0)',
+                interactive: true,
+            }

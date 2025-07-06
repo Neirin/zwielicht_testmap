@@ -54,7 +54,7 @@
         <script>
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[53.39478407629278,9.74735383135394],[53.65398242937638,10.385734011974266]]);
+        }).fitBounds([[53.418895076056636,9.759091169249524],[53.63669270411672,10.304110035801855]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -245,6 +245,9 @@
                     <tr>\
                         <td colspan="2">' + (feature.properties['gebiet'] !== null ? autolinker.link(String(feature.properties['gebiet']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['notiz'] !== null ? autolinker.link(String(feature.properties['notiz']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
@@ -395,16 +398,17 @@
                 case 'Medizinisches':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 10.4,
+                shape: 'diamond',
+                radius: 8.8,
                 opacity: 1,
-                color: 'rgba(227,26,28,1.0)',
+                color: 'rgba(128,17,25,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 2.0,
+                weight: 3.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(255,255,255,1.0)',
+                fillColor: 'rgba(243,251,244,1.0)',
                 interactive: true,
             }
                     break;
@@ -443,8 +447,7 @@
                 case 'Sicherheit':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                shape: 'diamond',
-                radius: 8.8,
+                radius: 8.0,
                 opacity: 1,
                 color: 'rgba(50,87,128,1.0)',
                 dashArray: '',
@@ -453,7 +456,7 @@
                 weight: 2.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(72,123,182,1.0)',
+                fillColor: 'rgba(251,185,56,1.0)',
                 interactive: true,
             }
                     break;
@@ -492,17 +495,22 @@
                 case 'Wohnung':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                shape: 'diamond',
-                radius: 6.8,
+                // rotationAngle: 0.0,
+                // rotationOrigin: 'center center',
+                // icon: L.icon({
+                //     iconUrl: 'markers/blue_house.svg',
+                //     iconSize: [19, 19]
+                // }),
+                radius: 6.0,
                 opacity: 1,
-                color: 'rgba(128,17,25,1.0)',
+                color: 'rgba(35,35,35,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
-                weight: 2.0,
+                weight: 1.0,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(109,255,232,1.0)',
+                fillColor: 'rgba(184,29,2,1.0)',
                 interactive: true,
             }
                     break;
@@ -539,7 +547,7 @@
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_OrtevonInteresseHamburg2080_6_0(feature));
+                return L.marker(latlng, style_OrtevonInteresseHamburg2080_6_0(feature));
             },
         });
         var cluster_OrtevonInteresseHamburg2080_6 = new L.MarkerClusterGroup({showCoverageOnHover: false,
@@ -703,7 +711,7 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
-        var Filters = {"gebiet": "str","wohn": "str","name": "str"};
+        var Filters = {"wohn": "str","gebiet": "str","name": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
           if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -795,52 +803,20 @@
         }
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
-            var div_gebiet = document.createElement('div');
-            div_gebiet.id = "div_gebiet";
-            div_gebiet.className= "filterselect";
-            document.getElementById("menu").appendChild(div_gebiet);
-            sel_gebiet = document.createElement('select');
-            sel_gebiet.multiple = true;
-            sel_gebiet.size = 3;
-            sel_gebiet.id = "sel_gebiet";
-            var gebiet_options_str = "<option value='' unselected></option>";
-            sel_gebiet.onchange = function(){filterFunc()};
-            gebiet_options_str  += '<option value="Bezirk">Bezirk</option>';
-            gebiet_options_str  += '<option value="Ortsteil">Ortsteil</option>';
-            gebiet_options_str  += '<option value="Stadtteil">Stadtteil</option>';
-            sel_gebiet.innerHTML = gebiet_options_str;
-            div_gebiet.appendChild(sel_gebiet);
-            var lab_gebiet = document.createElement('div');
-            lab_gebiet.innerHTML = 'gebiet';
-            lab_gebiet.className = 'filterlabel';
-            div_gebiet.appendChild(lab_gebiet);
-            var reset_gebiet = document.createElement('div');
-            reset_gebiet.innerHTML = 'clear filter';
-            reset_gebiet.className = 'filterlabel';
-            reset_gebiet.onclick = function() {
-                var options = document.getElementById("sel_gebiet").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFunc();
-            };
-            div_gebiet.appendChild(reset_gebiet);
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
             var div_wohn = document.createElement('div');
             div_wohn.id = "div_wohn";
             div_wohn.className= "filterselect";
             document.getElementById("menu").appendChild(div_wohn);
             sel_wohn = document.createElement('select');
             sel_wohn.multiple = true;
-            sel_wohn.size = 8;
+            sel_wohn.size = 9;
             sel_wohn.id = "sel_wohn";
             var wohn_options_str = "<option value='' unselected></option>";
             sel_wohn.onchange = function(){filterFunc()};
-            wohn_options_str  += '<option value="NULL">NULL</option>';
-            wohn_options_str  += '<option value="A">A</option>';
-            wohn_options_str  += '<option value="AA">AA</option>';
+            wohn_options_str  += '<option value="EXT">Exterritorial</option>';
             wohn_options_str  += '<option value="AAA">AAA</option>';
+            wohn_options_str  += '<option value="AA">AA</option>';
+            wohn_options_str  += '<option value="A">A</option>';
             wohn_options_str  += '<option value="B">B</option>';
             wohn_options_str  += '<option value="C">C</option>';
             wohn_options_str  += '<option value="D">D</option>';
@@ -848,11 +824,11 @@
             sel_wohn.innerHTML = wohn_options_str;
             div_wohn.appendChild(sel_wohn);
             var lab_wohn = document.createElement('div');
-            lab_wohn.innerHTML = 'wohn';
+            lab_wohn.innerHTML = 'Sicherheitsstufe';
             lab_wohn.className = 'filterlabel';
             div_wohn.appendChild(lab_wohn);
             var reset_wohn = document.createElement('div');
-            reset_wohn.innerHTML = 'clear filter';
+            reset_wohn.innerHTML = 'Filter zurücksetzen';
             reset_wohn.className = 'filterlabel';
             reset_wohn.onclick = function() {
                 var options = document.getElementById("sel_wohn").options;
@@ -862,6 +838,37 @@
                 filterFunc();
             };
             div_wohn.appendChild(reset_wohn);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_gebiet = document.createElement('div');
+            div_gebiet.id = "div_gebiet";
+            div_gebiet.className= "filterselect";
+            document.getElementById("menu").appendChild(div_gebiet);
+            sel_gebiet = document.createElement('select');
+            sel_gebiet.multiple = true;
+            sel_gebiet.size = 3;
+            sel_gebiet.id = "sel_gebiet";
+            sel_gebiet.onchange = function(){filterFunc()};
+            var gebiet_options_str  = '<option value="Bezirk">Bezirk</option>';
+            gebiet_options_str  += '<option value="Stadtteil">Stadtteil</option>';            
+            gebiet_options_str  += '<option value="Ortsteil">Ortsteil</option>';
+            sel_gebiet.innerHTML = gebiet_options_str;
+            div_gebiet.appendChild(sel_gebiet);
+            var lab_gebiet = document.createElement('div');
+            lab_gebiet.innerHTML = 'Gebietsfilter';
+            lab_gebiet.className = 'filterlabel';
+            div_gebiet.appendChild(lab_gebiet);
+            var reset_gebiet = document.createElement('div');
+            reset_gebiet.innerHTML = 'Filter zurücksetzen';
+            reset_gebiet.className = 'filterlabel';
+            reset_gebiet.onclick = function() {
+                var options = document.getElementById("sel_gebiet").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_gebiet.appendChild(reset_gebiet);
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
             var div_name = document.createElement('div');
@@ -1057,6 +1064,7 @@
             name_options_str  += '<option value="Oering">Oering</option>';
             name_options_str  += '<option value="Oersdorf">Oersdorf</option>';
             name_options_str  += '<option value="Ohlsdorf">Ohlsdorf</option>';
+            name_options_str  += '<option value="Orbitalflughafen Kaltenkirchen">Orbitalflughafen Kaltenkirchen</option>';
             name_options_str  += '<option value="Osdorf">Osdorf</option>';
             name_options_str  += '<option value="Osterhorn">Osterhorn</option>';
             name_options_str  += '<option value="Oststeinbek">Oststeinbek</option>';
@@ -1140,11 +1148,11 @@
             sel_name.innerHTML = name_options_str;
             div_name.appendChild(sel_name);
             var lab_name = document.createElement('div');
-            lab_name.innerHTML = 'name';
+            lab_name.innerHTML = 'Name';
             lab_name.className = 'filterlabel';
             div_name.appendChild(lab_name);
             var reset_name = document.createElement('div');
-            reset_name.innerHTML = 'clear filter';
+            reset_name.innerHTML = 'Filter zurücksetzen';
             reset_name.className = 'filterlabel';
             reset_name.onclick = function() {
                 var options = document.getElementById("sel_name").options;
