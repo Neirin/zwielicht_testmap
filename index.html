@@ -54,7 +54,7 @@
         <script>
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[53.418895076056636,9.759091169249524],[53.63669270411672,10.304110035801855]]);
+        }).fitBounds([[53.549459359149346,9.95476357109546],[53.56759603905645,10.000181809974766]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -185,7 +185,7 @@
                         <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Sicherheitseinstufung</th>\
+                        <th scope="row">Sicherheitszone</th>\
                         <td class="visible-with-data" id="wohn">' + (feature.properties['wohn'] !== null ? autolinker.link(String(feature.properties['wohn']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
@@ -236,14 +236,12 @@
                         <td colspan="2">' + (feature.properties['name'] !== null ? autolinker.link(String(feature.properties['name']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td class="visible-with-data" id="wohn" colspan="2"><strong>wohn</strong><br />' + (feature.properties['wohn'] !== null ? autolinker.link(String(feature.properties['wohn']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <th scope="row">Sicherheitszone</th>\
+                        <td class="visible-with-data" id="wohn">' + (feature.properties['wohn'] !== null ? autolinker.link(String(feature.properties['wohn']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">stadtteil</th>\
+                        <th scope="row">Stadtteil</th>\
                         <td class="visible-with-data" id="stadtteil">' + (feature.properties['stadtteil'] !== null ? autolinker.link(String(feature.properties['stadtteil']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['gebiet'] !== null ? autolinker.link(String(feature.properties['gebiet']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['notiz'] !== null ? autolinker.link(String(feature.properties['notiz']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -318,215 +316,166 @@
                 case 'Ausgehen':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 6.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(48,18,59,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/party-fun-dance-enjoy-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
                 case 'Bars und Kneipen':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 6.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(67,79,188,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/cocktail-5-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
+                interactive: true,
+            }
+                    break;
+                case 'Einkaufen':
+                    return {
+                pane: 'pane_OrtevonInteresseHamburg2080_6',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/shopping-card-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
                 case 'Freizeit':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 6.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(70,134,251,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/spanish-guitar-music-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
                 case 'Hotels':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 6.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(40,188,235,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/hotel-sign-hotel-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
                 case 'Konzerne':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 6.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(27,229,181,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/profits-statistics-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
                 case 'Medizinisches':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                shape: 'diamond',
-                radius: 8.8,
-                opacity: 1,
-                color: 'rgba(128,17,25,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 3.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(243,251,244,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/healthcare-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
                 case 'Restaurants':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 6.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(164,252,60,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/restaurant-waiter-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
                 case 'Schatten':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 6.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(218,227,54,1.0)',
+                icon: L.icon({
+                    iconUrl: 'markers/Shadowrun-5-Schlange_250x300px.png',
+                    iconSize: [19.0, 22.0]
+                }),
                 interactive: true,
             }
                     break;
                 case 'Sicherheit':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 8.0,
-                opacity: 1,
-                color: 'rgba(50,87,128,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(251,185,56,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/police-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
                 case 'Sightseeing':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 6.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(251,126,33,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/camera-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
                 case 'Verkehr':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 6.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(227,68,10,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/transport-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
                 case 'Wohnung':
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                // rotationAngle: 0.0,
-                // rotationOrigin: 'center center',
-                // icon: L.icon({
-                //     iconUrl: 'markers/blue_house.svg',
-                //     iconSize: [19, 19]
-                // }),
-                radius: 6.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(184,29,2,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/house-svgrepo-com.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
                 default:
                     return {
                 pane: 'pane_OrtevonInteresseHamburg2080_6',
-                radius: 6.0,
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 2.0,
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(122,4,3,1.0)',
+                rotationAngle: 0.0,
+                rotationOrigin: 'center center',
+                icon: L.icon({
+                    iconUrl: 'markers/OrtevonInteresseHamburg2080_6.svg',
+                    iconSize: [19.0, 19.0]
+                }),
                 interactive: true,
             }
                     break;
@@ -567,12 +516,12 @@
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .title += 'Search for a place';
         var overlaysTree = [
-            {label: 'Orte von Interesse Hamburg 2080<br /><table><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Ausgehen0.png" /></td><td>Ausgehen</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_BarsundKneipen1.png" /></td><td>Bars und Kneipen</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Freizeit2.png" /></td><td>Freizeit</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Hotels3.png" /></td><td>Hotels</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Konzerne4.png" /></td><td>Konzerne</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Medizinisches5.png" /></td><td>Medizinisches</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Restaurants6.png" /></td><td>Restaurants</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Schatten7.png" /></td><td>Schatten</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Sicherheit8.png" /></td><td>Sicherheit</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Sightseeing9.png" /></td><td>Sightseeing</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Verkehr10.png" /></td><td>Verkehr</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Wohnung11.png" /></td><td>Wohnung</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_12.png" /></td><td></td></tr></table>', layer: cluster_OrtevonInteresseHamburg2080_6},
+            {label: 'Orte von Interesse Hamburg 2080<br /><table><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Ausgehen0.png" /></td><td>Ausgehen</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_BarsundKneipen1.png" /></td><td>Bars und Kneipen</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Einkaufen2.png" /></td><td>Einkaufen</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Freizeit3.png" /></td><td>Freizeit</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Hotels4.png" /></td><td>Hotels</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Konzerne5.png" /></td><td>Konzerne</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Medizinisches6.png" /></td><td>Medizinisches</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Restaurants7.png" /></td><td>Restaurants</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Schatten8.png" /></td><td>Schatten</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Sicherheit9.png" /></td><td>Sicherheit</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Sightseeing10.png" /></td><td>Sightseeing</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Verkehr11.png" /></td><td>Verkehr</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_Wohnung12.png" /></td><td>Wohnung</td></tr><tr><td style="text-align: center;"><img src="legend/OrtevonInteresseHamburg2080_6_13.png" /></td><td></td></tr></table>', layer: cluster_OrtevonInteresseHamburg2080_6},
         {label: '<b>Stadtplan</b>',  selectAllCheckbox: true, children: [
             {label: '<img src="legend/OrtsteileHamburg2080_5.png" /> Ortsteile Hamburg 2080', layer: layer_OrtsteileHamburg2080_5},
             {label: '<img src="legend/StadtteileHamburg2080_4.png" /> Stadtteile Hamburg 2080', layer: layer_StadtteileHamburg2080_4},
             {label: '<img src="legend/BezirkeHamburg2080_3.png" /> Bezirke Hamburg 2080', layer: layer_BezirkeHamburg2080_3},]},
-        {label: '<b>Pegasus</b>',  selectAllCheckbox: true, children: [
+        {label: '<b>Pegasus</b>', collapsed: true, selectAllCheckbox: true, children: [
             {label: "KarteNeueMitte_modifiziert", layer: layer_KarteNeueMitte_modifiziert_2},
             {label: "Karte Hamburg (german)_modifiziert", layer: layer_KarteHamburggerman_modifiziert_1},]},
         {label: '<b>Basis</b>',  selectAllCheckbox: true, children: [
@@ -711,7 +660,7 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
-        var Filters = {"wohn": "str","gebiet": "str","name": "str"};
+        var Filters = {"wohn": "str","name": "str","gebiet": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
           if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -801,6 +750,8 @@
           }
           })
         }
+        /// Filter
+            /// Filter für Wohnsicherheit
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
             var div_wohn = document.createElement('div');
@@ -811,20 +762,20 @@
             sel_wohn.multiple = true;
             sel_wohn.size = 9;
             sel_wohn.id = "sel_wohn";
-            var wohn_options_str = "<option value='' unselected></option>";
-            sel_wohn.onchange = function(){filterFunc()};
-            wohn_options_str  += '<option value="EXT">Exterritorial</option>';
+            var wohn_options_str = '<option value="EXT">Exterritorial</option>';
+            sel_wohn.onchange = function(){filterFunc()};   
             wohn_options_str  += '<option value="AAA">AAA</option>';
-            wohn_options_str  += '<option value="AA">AA</option>';
+            wohn_options_str  += '<option value="AA">AA</option>';                        
             wohn_options_str  += '<option value="A">A</option>';
             wohn_options_str  += '<option value="B">B</option>';
             wohn_options_str  += '<option value="C">C</option>';
             wohn_options_str  += '<option value="D">D</option>';
+            wohn_options_str  += '<option value="E">E</option>';
             wohn_options_str  += '<option value="Z">Z</option>';
             sel_wohn.innerHTML = wohn_options_str;
             div_wohn.appendChild(sel_wohn);
             var lab_wohn = document.createElement('div');
-            lab_wohn.innerHTML = 'Sicherheitsstufe';
+            lab_wohn.innerHTML = 'Zone';
             lab_wohn.className = 'filterlabel';
             div_wohn.appendChild(lab_wohn);
             var reset_wohn = document.createElement('div');
@@ -838,6 +789,7 @@
                 filterFunc();
             };
             div_wohn.appendChild(reset_wohn);
+            /// Filter für Art der Gebiete
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
             var div_gebiet = document.createElement('div');
@@ -846,16 +798,18 @@
             document.getElementById("menu").appendChild(div_gebiet);
             sel_gebiet = document.createElement('select');
             sel_gebiet.multiple = true;
-            sel_gebiet.size = 3;
+            sel_gebiet.size = 4;
             sel_gebiet.id = "sel_gebiet";
+            var gebiet_options_str = "<option value='' unselected></option>";
             sel_gebiet.onchange = function(){filterFunc()};
-            var gebiet_options_str  = '<option value="Bezirk">Bezirk</option>';
-            gebiet_options_str  += '<option value="Stadtteil">Stadtteil</option>';            
+            gebiet_options_str  += '<option value="Bezirk">Bezirk</option>';
+            gebiet_options_str  += '<option value="OVI">OVI Areal</option>';
             gebiet_options_str  += '<option value="Ortsteil">Ortsteil</option>';
+            gebiet_options_str  += '<option value="Stadtteil">Stadtteil</option>';
             sel_gebiet.innerHTML = gebiet_options_str;
             div_gebiet.appendChild(sel_gebiet);
             var lab_gebiet = document.createElement('div');
-            lab_gebiet.innerHTML = 'Gebietsfilter';
+            lab_gebiet.innerHTML = 'Gebiet';
             lab_gebiet.className = 'filterlabel';
             div_gebiet.appendChild(lab_gebiet);
             var reset_gebiet = document.createElement('div');
@@ -869,6 +823,7 @@
                 filterFunc();
             };
             div_gebiet.appendChild(reset_gebiet);
+            /// Filter für Name des Stadtteils
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
             var div_name = document.createElement('div');
@@ -1050,6 +1005,7 @@
             name_options_str  += '<option value="Neu Wulmstorf">Neu Wulmstorf</option>';
             name_options_str  += '<option value="Neuallermöhe">Neuallermöhe</option>';
             name_options_str  += '<option value="Neue HafenCity">Neue HafenCity</option>';
+            name_options_str  += '<option value="Neue Messe Hamburg">Neue Messe Hamburg</option>';
             name_options_str  += '<option value="Neue-Mitte">Neue-Mitte</option>';
             name_options_str  += '<option value="Neuengamme">Neuengamme</option>';
             name_options_str  += '<option value="Neuenkirchen">Neuenkirchen</option>';
@@ -1071,6 +1027,7 @@
             name_options_str  += '<option value="Othmarschen">Othmarschen</option>';
             name_options_str  += '<option value="Ottensen">Ottensen</option>';
             name_options_str  += '<option value="Pinneberg">Pinneberg</option>';
+            name_options_str  += '<option value="Planten un Blomen">Planten un Blomen</option>';
             name_options_str  += '<option value="Poppenbüttel">Poppenbüttel</option>';
             name_options_str  += '<option value="Prisdorf">Prisdorf</option>';
             name_options_str  += '<option value="Quickborn">Quickborn</option>';
@@ -1162,6 +1119,44 @@
                 filterFunc();
             };
             div_name.appendChild(reset_name);
+            // /// Filter für POI
+            // document.getElementById("menu").appendChild(
+            //     document.createElement("div"));
+            // var div_typ = document.createElement('div');
+            // div_typ.id = "div_typ";
+            // div_typ.className= "filterselect";
+            // document.getElementById("menu").appendChild(div_typ);
+            // sel_typ = document.createElement('select');
+            // sel_typ.multiple = true;
+            // sel_typ.size = 9;
+            // sel_typ.id = "sel_typ";
+            // var typ_options_str = '<option value="Ausgehen">Ausgehen</option>';
+            // sel_typ.onchange = function(){filterFunc()};   
+            // typ_options_str  += '<option value="Bars und Kneipen">Bars und Kneipen</option>';
+            // typ_options_str  += '<option value="Einkaufen">Einkaufen</option>';                        
+            // typ_options_str  += '<option value="Freizeit">Freizeit</option>';
+            // typ_options_str  += '<option value="Hotels">Hotels</option>';
+            // typ_options_str  += '<option value="Konzerne">Konzerne</option>';
+            // typ_options_str  += '<option value="Medizinisches">Medizinisches</option>';
+            // typ_options_str  += '<option value="Restaurants">Restaurants</option>';
+            // typ_options_str  += '<option value="Schatten">Schatten</option>';
+            // sel_typ.innerHTML = typ_options_str;
+            // div_typ.appendChild(sel_typ);
+            // var lab_typ = document.createElement('div');
+            // lab_typ.innerHTML = 'Zone';
+            // lab_typ.className = 'filterlabel';
+            // div_typ.appendChild(lab_typ);
+            // var reset_typ = document.createElement('div');
+            // reset_typ.innerHTML = 'Filter zurücksetzen';
+            // reset_typ.className = 'filterlabel';
+            // reset_typ.onclick = function() {
+            //     var options = document.getElementById("sel_typ").options;
+            //     for (var i=0; i < options.length; i++) {
+            //         options[i].selected = false;
+            //     }
+            //     filterFunc();
+            // };
+            // div_typ.appendChild(reset_typ);
         L.ImageOverlay.include({
             getBounds: function () {
                 return this._bounds;
@@ -1177,6 +1172,11 @@
         map.on("layerremove", function(){
             resetLabels([layer_BezirkeHamburg2080_3,layer_StadtteileHamburg2080_4,layer_OrtevonInteresseHamburg2080_6]);
         });
+        L.control.scale( {
+        maxWidth: 200,
+        imperial: false,
+        metric: true
+        } ).addTo(map);
         </script>
     </body>
 </html>
