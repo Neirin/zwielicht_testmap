@@ -862,46 +862,46 @@
                 filterFuncOVI();
             };
             div_typ.appendChild(reset_typ);
-        // Filter Für Organisation
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_organisation = document.createElement('div');
-            div_organisation.id = "div_organisation";
-            div_organisation.className= "filterselect";
-            document.getElementById("menu").appendChild(div_organisation);
-            sel_organisation = document.createElement('select');
-            sel_organisation.multiple = true;
-            sel_organisation.size = 10;
-            sel_organisation.id = "sel_organisation";
-            var organisation_options_str = "<option value='' unselected></option>";
-            sel_organisation.onchange = function(){filterFuncOVI()};
-            organisation_options_str  += '<option value="BuMoNa">BuMoNa</option>';
-            organisation_options_str  += '<option value="Deutsche Sendeanstalten">Deutsche Sendeanstalten</option>';
-            organisation_options_str  += '<option value="Freie Hansestadt Hamburg">Freie Hansestadt Hamburg</option>';
-            organisation_options_str  += '<option value="Freie Hansestadt Hamburg 70%, Lufthansa Airport Management 30%">Freie Hansestadt Hamburg 70%, Lufthansa Airport Management 30%</option>';
-            organisation_options_str  += '<option value="Fußball-Club St. Pauli von 1910 e. V.">Fußball-Club St. Pauli von 1910 e. V.</option>';
-            organisation_options_str  += '<option value="Hamburger Admiralitätskollegium">Hamburger Admiralitätskollegium</option>';
-            organisation_options_str  += '<option value="Hanse Security">Hanse Security</option>';
-            organisation_options_str  += '<option value="Maersk Incorporated Assets">Maersk Incorporated Assets</option>';
-            organisation_options_str  += '<option value="Triaden">Triaden</option>';
-            organisation_options_str  += '<option value="Wuxing Incorporated">Wuxing Incorporated</option>';
-            sel_organisation.innerHTML = organisation_options_str;
-            div_organisation.appendChild(sel_organisation);
-            var lab_organisation = document.createElement('div');
-            lab_organisation.innerHTML = 'Einflussbereich von Organisationen';
-            lab_organisation.className = 'filterlabel';
-            div_organisation.appendChild(lab_organisation);
-            var reset_organisation = document.createElement('div');
-            reset_organisation.innerHTML = 'Filter zurücksetzen';
-            reset_organisation.className = 'filterlabel';
-            reset_organisation.onclick = function() {
-                var options = document.getElementById("sel_organisation").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFuncOVI();
-            };
-            div_organisation.appendChild(reset_organisation);
+        // // Filter Für Organisation
+        //     document.getElementById("menu").appendChild(
+        //         document.createElement("div"));
+        //     var div_organisation = document.createElement('div');
+        //     div_organisation.id = "div_organisation";
+        //     div_organisation.className= "filterselect";
+        //     document.getElementById("menu").appendChild(div_organisation);
+        //     sel_organisation = document.createElement('select');
+        //     sel_organisation.multiple = true;
+        //     sel_organisation.size = 10;
+        //     sel_organisation.id = "sel_organisation";
+        //     var organisation_options_str = "<option value='' unselected></option>";
+        //     sel_organisation.onchange = function(){filterFuncOVI()};
+        //     organisation_options_str  += '<option value="BuMoNa">BuMoNa</option>';
+        //     organisation_options_str  += '<option value="Deutsche Sendeanstalten">Deutsche Sendeanstalten</option>';
+        //     organisation_options_str  += '<option value="Freie Hansestadt Hamburg">Freie Hansestadt Hamburg</option>';
+        //     organisation_options_str  += '<option value="Freie Hansestadt Hamburg 70%, Lufthansa Airport Management 30%">Freie Hansestadt Hamburg 70%, Lufthansa Airport Management 30%</option>';
+        //     organisation_options_str  += '<option value="Fußball-Club St. Pauli von 1910 e. V.">Fußball-Club St. Pauli von 1910 e. V.</option>';
+        //     organisation_options_str  += '<option value="Hamburger Admiralitätskollegium">Hamburger Admiralitätskollegium</option>';
+        //     organisation_options_str  += '<option value="Hanse Security">Hanse Security</option>';
+        //     organisation_options_str  += '<option value="Maersk Incorporated Assets">Maersk Incorporated Assets</option>';
+        //     organisation_options_str  += '<option value="Triaden">Triaden</option>';
+        //     organisation_options_str  += '<option value="Wuxing Incorporated">Wuxing Incorporated</option>';
+        //     sel_organisation.innerHTML = organisation_options_str;
+        //     div_organisation.appendChild(sel_organisation);
+        //     var lab_organisation = document.createElement('div');
+        //     lab_organisation.innerHTML = 'Einflussbereich von Organisationen';
+        //     lab_organisation.className = 'filterlabel';
+        //     div_organisation.appendChild(lab_organisation);
+        //     var reset_organisation = document.createElement('div');
+        //     reset_organisation.innerHTML = 'Filter zurücksetzen';
+        //     reset_organisation.className = 'filterlabel';
+        //     reset_organisation.onclick = function() {
+        //         var options = document.getElementById("sel_organisation").options;
+        //         for (var i=0; i < options.length; i++) {
+        //             options[i].selected = false;
+        //         }
+        //         filterFuncOVI();
+        //     };
+        //     div_organisation.appendChild(reset_organisation);
             /// Filter für Name des Stadtteils
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
