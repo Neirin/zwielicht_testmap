@@ -115,8 +115,21 @@
         });
         layer_OpenStreetMap_0;
         map.addLayer(layer_OpenStreetMap_0);
+        map.createPane('pane_GoogleMapSattelit_2');
+        map.getPane('pane_GoogleMapSattelit_2').style.zIndex = 401;
+        var layer_GoogleMapSattelit_2 = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleMapSattelit_2',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_GoogleMapSattelit_2;
+        map.addLayer(layer_GoogleMapSattelit_2);
         map.createPane('pane_KarteHamburggerman_modifiziert_1');
-        map.getPane('pane_KarteHamburggerman_modifiziert_1').style.zIndex = 401;
+        map.getPane('pane_KarteHamburggerman_modifiziert_1').style.zIndex = 402;
         var img_KarteHamburggerman_modifiziert_1 = 'data/KarteHamburggerman_modifiziert_1.png';
         var img_bounds_KarteHamburggerman_modifiziert_1 = [[53.26079926201627,9.084405533086791],[53.94578239294034,10.667968138817523]];
         var layer_KarteHamburggerman_modifiziert_1 = new L.imageOverlay(img_KarteHamburggerman_modifiziert_1,
@@ -125,7 +138,7 @@
         bounds_group.addLayer(layer_KarteHamburggerman_modifiziert_1);
         map.addLayer(layer_KarteHamburggerman_modifiziert_1);
         map.createPane('pane_KarteNeueMitte_modifiziert_2');
-        map.getPane('pane_KarteNeueMitte_modifiziert_2').style.zIndex = 402;
+        map.getPane('pane_KarteNeueMitte_modifiziert_2').style.zIndex = 403;
         var img_KarteNeueMitte_modifiziert_2 = 'data/KarteNeueMitte_modifiziert_2.png';
         var img_bounds_KarteNeueMitte_modifiziert_2 = [[53.53187664647549,9.936372624524841],[53.584229830311344,10.178469233375044]];
         var layer_KarteNeueMitte_modifiziert_2 = new L.imageOverlay(img_KarteNeueMitte_modifiziert_2,
@@ -166,7 +179,7 @@
             }
         }
         map.createPane('pane_BezirkeHamburg2080_3');
-        map.getPane('pane_BezirkeHamburg2080_3').style.zIndex = 403;
+        map.getPane('pane_BezirkeHamburg2080_3').style.zIndex = 404;
         map.getPane('pane_BezirkeHamburg2080_3').style['mix-blend-mode'] = 'normal';
         var layer_BezirkeHamburg2080_3 = new L.geoJson(json_BezirkeHamburg2080_3, {
             attribution: '',
@@ -217,7 +230,7 @@
             }
         }
         map.createPane('pane_StadtteileHamburg2080_4');
-        map.getPane('pane_StadtteileHamburg2080_4').style.zIndex = 404;
+        map.getPane('pane_StadtteileHamburg2080_4').style.zIndex = 405;
         map.getPane('pane_StadtteileHamburg2080_4').style['mix-blend-mode'] = 'normal';
         var layer_StadtteileHamburg2080_4 = new L.geoJson(json_StadtteileHamburg2080_4, {
             attribution: '',
@@ -268,7 +281,7 @@
             }
         }
         map.createPane('pane_OrtsteileHamburg2080_5');
-        map.getPane('pane_OrtsteileHamburg2080_5').style.zIndex = 405;
+        map.getPane('pane_OrtsteileHamburg2080_5').style.zIndex = 406;
         map.getPane('pane_OrtsteileHamburg2080_5').style['mix-blend-mode'] = 'normal';
         var layer_OrtsteileHamburg2080_5 = new L.geoJson(json_OrtsteileHamburg2080_5, {
             attribution: '',
@@ -482,7 +495,7 @@
             }
         }
         map.createPane('pane_OrtevonInteresseHamburg2080_6');
-        map.getPane('pane_OrtevonInteresseHamburg2080_6').style.zIndex = 406;
+        map.getPane('pane_OrtevonInteresseHamburg2080_6').style.zIndex = 407;
         map.getPane('pane_OrtevonInteresseHamburg2080_6').style['mix-blend-mode'] = 'normal';
         var layer_OrtevonInteresseHamburg2080_6 = new L.geoJson(json_OrtevonInteresseHamburg2080_6, {
             attribution: '',
@@ -525,6 +538,7 @@
             {label: "KarteNeueMitte_modifiziert", layer: layer_KarteNeueMitte_modifiziert_2},
             {label: "Karte Hamburg (german)_modifiziert", layer: layer_KarteHamburggerman_modifiziert_1},]},
         {label: '<b>Basis</b>',  selectAllCheckbox: true, children: [
+            {label: "Google Map Satellit", layer: layer_GoogleMapSattelit_2, radioGroup: 'bm' },
             {label: "OpenStreetMap", layer: layer_OpenStreetMap_0, radioGroup: 'bm' },]},]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
