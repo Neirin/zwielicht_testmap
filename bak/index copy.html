@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="css/MarkerCluster.Default.css">
         <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/filter.css">
-<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/nouislider.min.css">
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
@@ -662,123 +662,74 @@
         col1.appendChild(mapDiv)
         var Filters = {"wohn": "str","name": "str","gebiet": "str"};
         function filterFunc() {
-          map.eachLayer(function(lyr){
-          if ("options" in lyr && "dataVar" in lyr["options"]){
-            features = this[lyr["options"]["dataVar"]].features.slice(0);
-            try{
-              for (key in Filters){
-                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
-                if (Filters[key] == "str" || Filters[key] == "bool"){
-                  var selection = [];
-                  var options = document.getElementById("sel_" + keyS).options
-                  for (var i=0; i < options.length; i++) {
-                    if (options[i].selected) selection.push(options[i].value);
-                  }
-                    try{
-                      if (key in features[0].properties){
-                        for (i = features.length - 1;
-                          i >= 0; --i){
-                          if (selection.indexOf(
-                          features[i].properties[key])<0
-                          && selection.length>0) {
-                          features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                  }
-                }
-                if (Filters[key] == "int"){
-                  sliderVals =  document.getElementById(
-                    "div_" + keyS).noUiSlider.get();
-                  try{
-                    if (key in features[0].properties){
-                    for (i = features.length - 1; i >= 0; --i){
-                      if (parseInt(features[i].properties[key])
-                          < sliderVals[0]
-                          || parseInt(features[i].properties[key])
-                          > sliderVals[1]){
-                            features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                    }
-                  }
-                if (Filters[key] == "real"){
-                  sliderVals =  document.getElementById(
-                    "div_" + keyS).noUiSlider.get();
-                  try{
-                    if (key in features[0].properties){
-                    for (i = features.length - 1; i >= 0; --i){
-                      if (features[i].properties[key]
-                          < sliderVals[0]
-                          || features[i].properties[key]
-                          > sliderVals[1]){
-                            features.splice(i,1);
-                          }
-                        }
-                      }
-                    } catch(err){
-                    }
-                  }
-                if (Filters[key] == "date"
-                  || Filters[key] == "datetime"
-                  || Filters[key] == "time"){
-                  try{
-                    if (key in features[0].properties){
-                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
-                      startdate = document.getElementById("dat_" +
-                        HTMLkey + "_date1").value.replace(" ", "T");
-                      enddate = document.getElementById("dat_" +
-                        HTMLkey + "_date2").value.replace(" ", "T");
-                      for (i = features.length - 1; i >= 0; --i){
-                        if (features[i].properties[key] < startdate
-                          || features[i].properties[key] > enddate){
-                          features.splice(i,1);
-                        }
-                      }
-                    }
-                  } catch(err){
-                  }
-                }
-              }
-            } catch(err){
-            }
-          this[lyr["options"]["layerName"]].clearLayers();
-          this[lyr["options"]["layerName"]].addData(features);
-          }
-          })
+  // Only filter the clustered Orte von Interesse Hamburg 2080 layer
+  var features = json_OrtevonInteresseHamburg2080_6.features.slice(0);
+  try {
+    for (key in Filters) {
+      keyS = key.replace(/[^a-zA-Z0-9_]/g, "");
+      if (Filters[key] == "str" || Filters[key] == "bool") {
+        var selection = [];
+        var options = document.getElementById("sel_" + keyS).options;
+        for (var i = 0; i < options.length; i++) {
+          if (options[i].selected) selection.push(options[i].value);
         }
-        var FiltersOVI = {"typ": "str"};        
-        function filterFuncOVI() {
-        // Only filter the Orte von Interesse layer (adjust name if needed)
-        var features = json_OrtevonInteresseHamburg2080_6.features.slice(0);
-        for (var key in FiltersOVI) {
-            var keyS = key.replace(/[^a-zA-Z0-9_]/g, "");
-            if (FiltersOVI[key] == "str" || FiltersOVI[key] == "bool") {
-            var selection = [];
-            var options = document.getElementById("sel_" + keyS).options;
-            for (var i = 0; i < options.length; i++) {
-                if (options[i].selected && options[i].value !== "") selection.push(options[i].value);
-            }
-            if (features.length && !(key in features[0].properties)) {
-                console.warn('Filter key', key, 'not found in feature properties:', features[0].properties);
-            }
-            for (var i = features.length - 1; i >= 0; --i) {
-                if (selection.length > 0 && selection.indexOf(features[i].properties[key]) < 0) {
+        try {
+          if (key in features[0].properties) {
+            for (i = features.length - 1; i >= 0; --i) {
+              if (selection.indexOf(features[i].properties[key]) < 0 && selection.length > 0) {
                 features.splice(i, 1);
-                }
+              }
             }
+          }
+        } catch (err) {}
+      }
+      if (Filters[key] == "int") {
+        sliderVals = document.getElementById("div_" + keyS).noUiSlider.get();
+        try {
+          if (key in features[0].properties) {
+            for (i = features.length - 1; i >= 0; --i) {
+              if (parseInt(features[i].properties[key]) < sliderVals[0] || parseInt(features[i].properties[key]) > sliderVals[1]) {
+                features.splice(i, 1);
+              }
             }
-            // ... handle other filter types if needed ...
-        }
-        // Update the layer
-        cluster_OrtevonInteresseHamburg2080_6.removeLayer(layer_OrtevonInteresseHamburg2080_6);
-        layer_OrtevonInteresseHamburg2080_6.clearLayers();
-        layer_OrtevonInteresseHamburg2080_6.addData(features);
-        cluster_OrtevonInteresseHamburg2080_6.addLayer(layer_OrtevonInteresseHamburg2080_6);
-        }
+          }
+        } catch (err) {}
+      }
+      if (Filters[key] == "real") {
+        sliderVals = document.getElementById("div_" + keyS).noUiSlider.get();
+        try {
+          if (key in features[0].properties) {
+            for (i = features.length - 1; i >= 0; --i) {
+              if (features[i].properties[key] < sliderVals[0] || features[i].properties[key] > sliderVals[1]) {
+                features.splice(i, 1);
+              }
+            }
+          }
+        } catch (err) {}
+      }
+      if (Filters[key] == "date" || Filters[key] == "datetime" || Filters[key] == "time") {
+        try {
+          if (key in features[0].properties) {
+            HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+            startdate = document.getElementById("dat_" + HTMLkey + "_date1").value.replace(" ", "T");
+            enddate = document.getElementById("dat_" + HTMLkey + "_date2").value.replace(" ", "T");
+            for (i = features.length - 1; i >= 0; --i) {
+              if (features[i].properties[key] < startdate || features[i].properties[key] > enddate) {
+                features.splice(i, 1);
+              }
+            }
+          }
+        } catch (err) {}
+      }
+    }
+  } catch (err) {}
+
+  // Remove, update, and re-add the geoJson layer to the cluster group
+  cluster_OrtevonInteresseHamburg2080_6.removeLayer(layer_OrtevonInteresseHamburg2080_6);
+  layer_OrtevonInteresseHamburg2080_6.clearLayers();
+  layer_OrtevonInteresseHamburg2080_6.addData(features);
+  cluster_OrtevonInteresseHamburg2080_6.addLayer(layer_OrtevonInteresseHamburg2080_6);
+}
         /// Filter
             /// Filter für Wohnsicherheit
             document.getElementById("menu").appendChild(
@@ -829,8 +780,9 @@
             sel_gebiet.multiple = true;
             sel_gebiet.size = 4;
             sel_gebiet.id = "sel_gebiet";
-            var gebiet_options_str = '<option value="Bezirk">Bezirk</option>';
+            var gebiet_options_str = "<option value='' unselected></option>";
             sel_gebiet.onchange = function(){filterFunc()};
+            gebiet_options_str  += '<option value="Bezirk">Bezirk</option>';
             gebiet_options_str  += '<option value="OVI">OVI Areal</option>';
             gebiet_options_str  += '<option value="Ortsteil">Ortsteil</option>';
             gebiet_options_str  += '<option value="Stadtteil">Stadtteil</option>';
@@ -1147,48 +1099,44 @@
                 filterFunc();
             };
             div_name.appendChild(reset_name);
-            /// Filter für POI
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_typ = document.createElement('div');
-            div_typ.id = "div_typ";
-            div_typ.className= "filterselect";
-            document.getElementById("menu").appendChild(div_typ);
-            sel_typ = document.createElement('select');
-            sel_typ.multiple = true;
-            sel_typ.size = 13;
-            sel_typ.id = "sel_typ";
-            var typ_options_str = '<option value="Ausgehen">Ausgehen</option>';
-            sel_typ.onchange = function(){filterFuncOVI()};   
-            typ_options_str  += '<option value="Bars und Kneipen">Bars und Kneipen</option>';
-            typ_options_str  += '<option value="Einkaufen">Einkaufen</option>';
-            typ_options_str  += '<option value="Freizeit">Freizeit</option>';
-            typ_options_str  += '<option value="Hotels">Hotels</option>';
-            typ_options_str  += '<option value="Konzerne">Konzerne</option>';
-            typ_options_str  += '<option value="Medizinisches">Medizinisches</option>';
-            typ_options_str  += '<option value="Restaurants">Restaurants</option>';
-            typ_options_str  += '<option value="Schatten">Schatten</option>';
-            typ_options_str  += '<option value="Sicherheit">Sicherheit</option>';
-            typ_options_str  += '<option value="Sightseeing">Sightseeing</option>';
-            typ_options_str  += '<option value="Verkehr">Verkehr</option>';
-            typ_options_str  += '<option value="Wohnung">Wohnung</option>';
-            sel_typ.innerHTML = typ_options_str;
-            div_typ.appendChild(sel_typ);
-            var lab_typ = document.createElement('div');
-            lab_typ.innerHTML = 'Zone';
-            lab_typ.className = 'filterlabel';
-            div_typ.appendChild(lab_typ);
-            var reset_typ = document.createElement('div');
-            reset_typ.innerHTML = 'Filter zurücksetzen';
-            reset_typ.className = 'filterlabel';
-            reset_typ.onclick = function() {
-                var options = document.getElementById("sel_typ").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFuncOVI();
-            };
-            div_typ.appendChild(reset_typ);
+            // /// Filter für POI
+            // document.getElementById("menu").appendChild(
+            //     document.createElement("div"));
+            // var div_typ = document.createElement('div');
+            // div_typ.id = "div_typ";
+            // div_typ.className= "filterselect";
+            // document.getElementById("menu").appendChild(div_typ);
+            // sel_typ = document.createElement('select');
+            // sel_typ.multiple = true;
+            // sel_typ.size = 9;
+            // sel_typ.id = "sel_typ";
+            // var typ_options_str = '<option value="Ausgehen">Ausgehen</option>';
+            // sel_typ.onchange = function(){filterFunc()};   
+            // typ_options_str  += '<option value="Bars und Kneipen">Bars und Kneipen</option>';
+            // typ_options_str  += '<option value="Einkaufen">Einkaufen</option>';                        
+            // typ_options_str  += '<option value="Freizeit">Freizeit</option>';
+            // typ_options_str  += '<option value="Hotels">Hotels</option>';
+            // typ_options_str  += '<option value="Konzerne">Konzerne</option>';
+            // typ_options_str  += '<option value="Medizinisches">Medizinisches</option>';
+            // typ_options_str  += '<option value="Restaurants">Restaurants</option>';
+            // typ_options_str  += '<option value="Schatten">Schatten</option>';
+            // sel_typ.innerHTML = typ_options_str;
+            // div_typ.appendChild(sel_typ);
+            // var lab_typ = document.createElement('div');
+            // lab_typ.innerHTML = 'Zone';
+            // lab_typ.className = 'filterlabel';
+            // div_typ.appendChild(lab_typ);
+            // var reset_typ = document.createElement('div');
+            // reset_typ.innerHTML = 'Filter zurücksetzen';
+            // reset_typ.className = 'filterlabel';
+            // reset_typ.onclick = function() {
+            //     var options = document.getElementById("sel_typ").options;
+            //     for (var i=0; i < options.length; i++) {
+            //         options[i].selected = false;
+            //     }
+            //     filterFunc();
+            // };
+            // div_typ.appendChild(reset_typ);
         L.ImageOverlay.include({
             getBounds: function () {
                 return this._bounds;
@@ -1199,7 +1147,7 @@
             resetLabels([layer_BezirkeHamburg2080_3,layer_StadtteileHamburg2080_4,layer_OrtevonInteresseHamburg2080_6]);
         });
         map.on("layeradd", function(){
-            resetLabels([layer_BezirkeHamburg2080_3,layer_StadtteileHamburg2080_4,layer_OrtevonInteresseHamburg2080_6]);
+                       resetLabels([layer_BezirkeHamburg2080_3,layer_StadtteileHamburg2080_4,layer_OrtevonInteresseHamburg2080_6]);
         });
         map.on("layerremove", function(){
             resetLabels([layer_BezirkeHamburg2080_3,layer_StadtteileHamburg2080_4,layer_OrtevonInteresseHamburg2080_6]);

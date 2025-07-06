@@ -750,35 +750,6 @@
           }
           })
         }
-        var FiltersOVI = {"typ": "str"};        
-        function filterFuncOVI() {
-        // Only filter the Orte von Interesse layer (adjust name if needed)
-        var features = json_OrtevonInteresseHamburg2080_6.features.slice(0);
-        for (var key in FiltersOVI) {
-            var keyS = key.replace(/[^a-zA-Z0-9_]/g, "");
-            if (FiltersOVI[key] == "str" || FiltersOVI[key] == "bool") {
-            var selection = [];
-            var options = document.getElementById("sel_" + keyS).options;
-            for (var i = 0; i < options.length; i++) {
-                if (options[i].selected && options[i].value !== "") selection.push(options[i].value);
-            }
-            if (features.length && !(key in features[0].properties)) {
-                console.warn('Filter key', key, 'not found in feature properties:', features[0].properties);
-            }
-            for (var i = features.length - 1; i >= 0; --i) {
-                if (selection.length > 0 && selection.indexOf(features[i].properties[key]) < 0) {
-                features.splice(i, 1);
-                }
-            }
-            }
-            // ... handle other filter types if needed ...
-        }
-        // Update the layer
-        cluster_OrtevonInteresseHamburg2080_6.removeLayer(layer_OrtevonInteresseHamburg2080_6);
-        layer_OrtevonInteresseHamburg2080_6.clearLayers();
-        layer_OrtevonInteresseHamburg2080_6.addData(features);
-        cluster_OrtevonInteresseHamburg2080_6.addLayer(layer_OrtevonInteresseHamburg2080_6);
-        }
         /// Filter
             /// Filter für Wohnsicherheit
             document.getElementById("menu").appendChild(
@@ -829,8 +800,9 @@
             sel_gebiet.multiple = true;
             sel_gebiet.size = 4;
             sel_gebiet.id = "sel_gebiet";
-            var gebiet_options_str = '<option value="Bezirk">Bezirk</option>';
+            var gebiet_options_str = "<option value='' unselected></option>";
             sel_gebiet.onchange = function(){filterFunc()};
+            gebiet_options_str  += '<option value="Bezirk">Bezirk</option>';
             gebiet_options_str  += '<option value="OVI">OVI Areal</option>';
             gebiet_options_str  += '<option value="Ortsteil">Ortsteil</option>';
             gebiet_options_str  += '<option value="Stadtteil">Stadtteil</option>';
@@ -1147,48 +1119,44 @@
                 filterFunc();
             };
             div_name.appendChild(reset_name);
-            /// Filter für POI
-            document.getElementById("menu").appendChild(
-                document.createElement("div"));
-            var div_typ = document.createElement('div');
-            div_typ.id = "div_typ";
-            div_typ.className= "filterselect";
-            document.getElementById("menu").appendChild(div_typ);
-            sel_typ = document.createElement('select');
-            sel_typ.multiple = true;
-            sel_typ.size = 13;
-            sel_typ.id = "sel_typ";
-            var typ_options_str = '<option value="Ausgehen">Ausgehen</option>';
-            sel_typ.onchange = function(){filterFuncOVI()};   
-            typ_options_str  += '<option value="Bars und Kneipen">Bars und Kneipen</option>';
-            typ_options_str  += '<option value="Einkaufen">Einkaufen</option>';
-            typ_options_str  += '<option value="Freizeit">Freizeit</option>';
-            typ_options_str  += '<option value="Hotels">Hotels</option>';
-            typ_options_str  += '<option value="Konzerne">Konzerne</option>';
-            typ_options_str  += '<option value="Medizinisches">Medizinisches</option>';
-            typ_options_str  += '<option value="Restaurants">Restaurants</option>';
-            typ_options_str  += '<option value="Schatten">Schatten</option>';
-            typ_options_str  += '<option value="Sicherheit">Sicherheit</option>';
-            typ_options_str  += '<option value="Sightseeing">Sightseeing</option>';
-            typ_options_str  += '<option value="Verkehr">Verkehr</option>';
-            typ_options_str  += '<option value="Wohnung">Wohnung</option>';
-            sel_typ.innerHTML = typ_options_str;
-            div_typ.appendChild(sel_typ);
-            var lab_typ = document.createElement('div');
-            lab_typ.innerHTML = 'Zone';
-            lab_typ.className = 'filterlabel';
-            div_typ.appendChild(lab_typ);
-            var reset_typ = document.createElement('div');
-            reset_typ.innerHTML = 'Filter zurücksetzen';
-            reset_typ.className = 'filterlabel';
-            reset_typ.onclick = function() {
-                var options = document.getElementById("sel_typ").options;
-                for (var i=0; i < options.length; i++) {
-                    options[i].selected = false;
-                }
-                filterFuncOVI();
-            };
-            div_typ.appendChild(reset_typ);
+            // /// Filter für POI
+            // document.getElementById("menu").appendChild(
+            //     document.createElement("div"));
+            // var div_typ = document.createElement('div');
+            // div_typ.id = "div_typ";
+            // div_typ.className= "filterselect";
+            // document.getElementById("menu").appendChild(div_typ);
+            // sel_typ = document.createElement('select');
+            // sel_typ.multiple = true;
+            // sel_typ.size = 9;
+            // sel_typ.id = "sel_typ";
+            // var typ_options_str = '<option value="Ausgehen">Ausgehen</option>';
+            // sel_typ.onchange = function(){filterFunc()};   
+            // typ_options_str  += '<option value="Bars und Kneipen">Bars und Kneipen</option>';
+            // typ_options_str  += '<option value="Einkaufen">Einkaufen</option>';                        
+            // typ_options_str  += '<option value="Freizeit">Freizeit</option>';
+            // typ_options_str  += '<option value="Hotels">Hotels</option>';
+            // typ_options_str  += '<option value="Konzerne">Konzerne</option>';
+            // typ_options_str  += '<option value="Medizinisches">Medizinisches</option>';
+            // typ_options_str  += '<option value="Restaurants">Restaurants</option>';
+            // typ_options_str  += '<option value="Schatten">Schatten</option>';
+            // sel_typ.innerHTML = typ_options_str;
+            // div_typ.appendChild(sel_typ);
+            // var lab_typ = document.createElement('div');
+            // lab_typ.innerHTML = 'Zone';
+            // lab_typ.className = 'filterlabel';
+            // div_typ.appendChild(lab_typ);
+            // var reset_typ = document.createElement('div');
+            // reset_typ.innerHTML = 'Filter zurücksetzen';
+            // reset_typ.className = 'filterlabel';
+            // reset_typ.onclick = function() {
+            //     var options = document.getElementById("sel_typ").options;
+            //     for (var i=0; i < options.length; i++) {
+            //         options[i].selected = false;
+            //     }
+            //     filterFunc();
+            // };
+            // div_typ.appendChild(reset_typ);
         L.ImageOverlay.include({
             getBounds: function () {
                 return this._bounds;
