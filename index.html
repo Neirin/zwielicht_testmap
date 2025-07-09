@@ -592,8 +592,8 @@
                         <td class="visible-with-data" id="eigentümer">' + (feature.properties['eigentümer'] !== null ? autolinker.link(String(feature.properties['eigentümer']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">Organisation</th>\
-                        <td class="visible-with-data" id="organisation">' + (feature.properties['organisation'] !== null ? autolinker.link(String(feature.properties['organisation']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                        <th scope="row">Region</th>\
+                        <td class="visible-with-data" id="region">' + (feature.properties['region'] !== null ? autolinker.link(String(feature.properties['region']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td class="visible-with-data" id="notiz" colspan="2"><strong>Kurzbeschreibung</strong><br />' + (feature.properties['notiz'] !== null ? autolinker.link(String(feature.properties['notiz']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -784,8 +784,9 @@
                 return L.marker(latlng, style_ZwielichtOrtevonInteresse_0(feature));
             },
         });
-        var cluster_ZwielichtOrtevonInteresse = new L.MarkerClusterGroup({showCoverageOnHover: false,
-            spiderfyDistanceMultiplier: 1.5});
+        var cluster_ZwielichtOrtevonInteresse = new L.MarkerClusterGroup({
+            showCoverageOnHover: true,
+            spiderfyDistanceMultiplier: 1});
         cluster_ZwielichtOrtevonInteresse.addLayer(layer_ZwielichtOrtevonInteresse);
 
         bounds_group.addLayer(layer_ZwielichtOrtevonInteresse);
@@ -803,7 +804,7 @@
         var overlaysTree = [
             {label: 'Zwielicht Orte von Interesse<br /><table><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Ausgehen0.png" /></td><td>Ausgehen</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_BarsundKneipen1.png" /></td><td>Bars und Kneipen</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Einkaufen2.png" /></td><td>Einkaufen</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Freizeit3.png" /></td><td>Freizeit</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Hotels4.png" /></td><td>Hotels</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Konzerne5.png" /></td><td>Konzerne</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Medizinisches6.png" /></td><td>Medizinisches</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Restaurants7.png" /></td><td>Restaurants</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Schatten8.png" /></td><td>Schatten</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Sicherheit9.png" /></td><td>Sicherheit</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Sightseeing10.png" /></td><td>Sightseeing</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Verkehr11.png" /></td><td>Verkehr</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Wohnung12.png" /></td><td>Wohnung</td></tr></table>', layer: cluster_ZwielichtOrtevonInteresse},
         {label: '<b>Verkehr</b>',  selectAllCheckbox: true, children: [
-            {label: 'Straßen Hamburg 2080<br /><table><tr><td style="text-align: center;"><img src="legend/StraenHamburg2080_Autobahn0.png" /></td><td>Autobahn</td></tr><tr><td style="text-align: center;"><img src="legend/StraenHamburg2080_EuroRoute1.png" /></td><td>EuroRoute</td></tr><tr><td style="text-align: center;"><img src="legend/StraenHamburg2080_2.png" /></td><td></td></tr></table>', layer: layer_StraenHamburg2080},]},
+            {label: 'Straßen Hamburg 2080', layer: layer_StraenHamburg2080},]},
         {label: '<b>Stadtplan</b>',  selectAllCheckbox: true, children: [
             {label: '<img src="legend/OrtsteileHamburg2080.png" /> Ortsteile Hamburg 2080', layer: layer_OrtsteileHamburg2080},
             {label: '<img src="legend/StadtteileHamburg2080.png" /> Stadtteile Hamburg 2080', layer: layer_StadtteileHamburg2080},
@@ -1047,7 +1048,7 @@
           }
           })
         }
-        var FiltersOVI = {"typ": "str"};
+        var FiltersOVI = {"typ": "str","region": "str"};
         function filterFuncOVI() {
         // Only filter the Orte von Interesse layer (adjust name if needed)
         var features = json_ZwielichtOrtevonInteresse.features.slice(0);
@@ -1157,46 +1158,37 @@
                 filterFuncOVI();
             };
             div_typ.appendChild(reset_typ);
-        // // Filter Für Organisation
-        //     document.getElementById("menu").appendChild(
-        //         document.createElement("div"));
-        //     var div_organisation = document.createElement('div');
-        //     div_organisation.id = "div_organisation";
-        //     div_organisation.className= "filterselect";
-        //     document.getElementById("menu").appendChild(div_organisation);
-        //     sel_organisation = document.createElement('select');
-        //     sel_organisation.multiple = true;
-        //     sel_organisation.size = 10;
-        //     sel_organisation.id = "sel_organisation";
-        //     var organisation_options_str = "<option value='' unselected></option>";
-        //     sel_organisation.onchange = function(){filterFuncOVI()};
-        //     organisation_options_str  += '<option value="BuMoNa">BuMoNa</option>';
-        //     organisation_options_str  += '<option value="Deutsche Sendeanstalten">Deutsche Sendeanstalten</option>';
-        //     organisation_options_str  += '<option value="Freie Hansestadt Hamburg">Freie Hansestadt Hamburg</option>';
-        //     organisation_options_str  += '<option value="Freie Hansestadt Hamburg 70%, Lufthansa Airport Management 30%">Freie Hansestadt Hamburg 70%, Lufthansa Airport Management 30%</option>';
-        //     organisation_options_str  += '<option value="Fußball-Club St. Pauli von 1910 e. V.">Fußball-Club St. Pauli von 1910 e. V.</option>';
-        //     organisation_options_str  += '<option value="Hamburger Admiralitätskollegium">Hamburger Admiralitätskollegium</option>';
-        //     organisation_options_str  += '<option value="Hanse Security">Hanse Security</option>';
-        //     organisation_options_str  += '<option value="Maersk Incorporated Assets">Maersk Incorporated Assets</option>';
-        //     organisation_options_str  += '<option value="Triaden">Triaden</option>';
-        //     organisation_options_str  += '<option value="Wuxing Incorporated">Wuxing Incorporated</option>';
-        //     sel_organisation.innerHTML = organisation_options_str;
-        //     div_organisation.appendChild(sel_organisation);
-        //     var lab_organisation = document.createElement('div');
-        //     lab_organisation.innerHTML = 'Einflussbereich von Organisationen';
-        //     lab_organisation.className = 'filterlabel';
-        //     div_organisation.appendChild(lab_organisation);
-        //     var reset_organisation = document.createElement('div');
-        //     reset_organisation.innerHTML = 'Filter zurücksetzen';
-        //     reset_organisation.className = 'filterlabel';
-        //     reset_organisation.onclick = function() {
-        //         var options = document.getElementById("sel_organisation").options;
-        //         for (var i=0; i < options.length; i++) {
-        //             options[i].selected = false;
-        //         }
-        //         filterFuncOVI();
-        //     };
-        //     div_organisation.appendChild(reset_organisation);
+        // // Filter Für Region
+            // document.getElementById("menu").appendChild(
+            //     document.createElement("div"));
+            // var div_region = document.createElement('div');
+            // div_region.id = "div_region";
+            // div_region.className= "filterselect";
+            // document.getElementById("menu").appendChild(div_region);
+            // sel_region = document.createElement('select');
+            // sel_region.multiple = true;
+            // sel_region.size = 1;
+            // sel_region.id = "sel_region";
+            // var region_options_str = "<option value='' unselected></option>";
+            // sel_region.onchange = function(){filterFuncOVI()};
+            // region_options_str  += '<option value="Hamburg">Hamburg</option>';
+            // sel_region.innerHTML = region_options_str;
+            // div_region.appendChild(sel_region);
+            // var lab_region = document.createElement('div');
+            // lab_region.innerHTML = 'Region';
+            // lab_region.className = 'filterlabel';
+            // div_region.appendChild(lab_region);
+            // var reset_region = document.createElement('div');
+            // reset_region.innerHTML = 'Filter zurücksetzen';
+            // reset_region.className = 'filterlabel';
+            // reset_region.onclick = function() {
+            //     var options = document.getElementById("sel_region").options;
+            //     for (var i=0; i < options.length; i++) {
+            //         options[i].selected = false;
+            //     }
+            //     filterFuncOVI();
+            // };
+            // div_region.appendChild(reset_region);
             /// Filter für Name des Stadtteils
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
@@ -1521,7 +1513,7 @@
         } ).addTo(map);
 
         // Listener for Mouse Movement
-        // Add mouse coordinate display to the left part of the screen (over the map)
+        // Add mouse coordinate display to the bottom center part of the screen (over the map)
         var mapWindow = document.getElementById('mapWindow');
         var coordDisplayDiv = document.createElement('div');
         coordDisplayDiv.id = 'mouse-coord-display';
