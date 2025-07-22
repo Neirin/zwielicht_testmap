@@ -5,3 +5,10 @@
             transform: translateX(-50%);
             z-index: 9999 !important;
         }
+
+/* // Bezirke Labels */
+        .bezirk-label {
+            pointer-events: none;
+            text-align: center;
+            white-space: nowrap;
+        }

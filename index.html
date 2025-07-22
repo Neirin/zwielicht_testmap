@@ -54,7 +54,8 @@
         <script src="data/BezirkeHamburg2080.js"></script>
         <script src="data/StadtteileHamburg2080.js"></script>
         <script src="data/OrtsteileHamburg2080.js"></script>
-        <script src="data/StraenHamburg2080.js"></script>
+        <script src="data/VerkehrStraenHamburg2080.js"></script>
+        <script src="data/VerkehrHamburgffentlich2080.js"></script>
         <script src="data/ZwielichtOrtevonInteresse.js"></script>
         <script>
         var map = L.map('map', {
@@ -78,19 +79,19 @@
          return tempDiv.innerHTML;
         }
         // add class to format popup if it contains media
-		function addClassToPopupIfMedia(content, popup) {
-			var tempDiv = document.createElement('div');
-			tempDiv.innerHTML = content;
-			if (tempDiv.querySelector('td img')) {
-				popup._contentNode.classList.add('media');
-					// Delay to force the redraw
-					setTimeout(function() {
-						popup.update();
-					}, 10);
-			} else {
-				popup._contentNode.classList.remove('media');
-			}
-		}
+        function addClassToPopupIfMedia(content, popup) {
+            var tempDiv = document.createElement('div');
+            tempDiv.innerHTML = content;
+            if (tempDiv.querySelector('td img')) {
+                popup._contentNode.classList.add('media');
+                    // Delay to force the redraw
+                    setTimeout(function() {
+                        popup.update();
+                    }, 10);
+            } else {
+                popup._contentNode.classList.remove('media');
+            }
+        }
         var zoomControl = L.control.zoom({
             position: 'topleft'
         }).addTo(map);
@@ -222,10 +223,10 @@
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            layer.on('popupopen', function(e) {
+                addClassToPopupIfMedia(content, e.popup);
+            });
+            layer.bindPopup(content, { maxHeight: 400 });
         }
 
         function style_ADLLnder_0() {
@@ -265,10 +266,10 @@
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            layer.on('popupopen', function(e) {
+                addClassToPopupIfMedia(content, e.popup);
+            });
+            layer.bindPopup(content, { maxHeight: 400 });
         }
 
         function style_ADLLandeshauptstdte_0() {
@@ -317,10 +318,10 @@
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            layer.on('popupopen', function(e) {
+                addClassToPopupIfMedia(content, e.popup);
+            });
+            layer.bindPopup(content, { maxHeight: 400 });
         }
 
         function style_SOXAreal_0() {
@@ -366,10 +367,10 @@
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            layer.on('popupopen', function(e) {
+                addClassToPopupIfMedia(content, e.popup);
+            });
+            layer.bindPopup(content, { maxHeight: 400 });
         }
 
         function style_BezirkeHamburg2080_0() {
@@ -385,6 +386,65 @@
                 interactive: true,
             }
         }
+
+        // Add labels for Bezirke
+        function addBezirkLabels(layer) {
+            layer.eachLayer(function (lyr) {
+                if (lyr.feature && lyr.feature.properties && lyr.feature.properties.name) {
+                    var center = lyr.getBounds().getCenter();
+                    var label = L.marker(center, {
+                        icon: L.divIcon({
+                            className: 'bezirk-label',
+                            html: '<span style="color:#3a0066;font-weight:bold;font-size:1.7em;text-shadow:1px 1px 4px #fff;">' + lyr.feature.properties.name + '</span>',
+                            iconSize: [120, 30]
+                        }),
+                        interactive: false
+                    });
+                    lyr._bezirkLabel = label;
+                    if (map.getZoom() >= 10 && map.getZoom() <= 13) {
+                        label.addTo(map);
+                    }
+                }
+            });
+        }
+
+        // Remove labels
+        function removeBezirkLabels(layer) {
+            layer.eachLayer(function (lyr) {
+                if (lyr._bezirkLabel) {
+                    map.removeLayer(lyr._bezirkLabel);
+                    lyr._bezirkLabel = null;
+                }
+            });
+        }
+
+        // Update labels on zoom
+        map.on('zoomend', function () {
+            if (map.hasLayer(layer_BezirkeHamburg2080)) {
+                removeBezirkLabels(layer_BezirkeHamburg2080);
+                if (map.getZoom() >= 10 && map.getZoom() <= 13) {
+                    addBezirkLabels(layer_BezirkeHamburg2080);
+                }
+            }
+        });
+
+        // Initial label display
+        map.whenReady(function () {
+            if (map.hasLayer(layer_BezirkeHamburg2080) && map.getZoom() >= 10 && map.getZoom() <= 13) {
+                addBezirkLabels(layer_BezirkeHamburg2080);
+            }
+        });
+
+        // // Add some CSS for the label
+        // var style = document.createElement('style');
+        // style.innerHTML = `
+        // .bezirk-label {
+        //     pointer-events: none;
+        //     text-align: center;
+        //     white-space: nowrap;
+        // }
+        // `;
+        // document.head.appendChild(style);
         map.createPane('pane_BezirkeHamburg2080');
         map.getPane('pane_BezirkeHamburg2080').style.zIndex = 420;
         map.getPane('pane_BezirkeHamburg2080').style['mix-blend-mode'] = 'normal';
@@ -417,10 +477,10 @@
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            layer.on('popupopen', function(e) {
+                addClassToPopupIfMedia(content, e.popup);
+            });
+            layer.bindPopup(content, { maxHeight: 400 });
         }
 
         function style_StadtteileHamburg2080_0() {
@@ -468,10 +528,10 @@
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            layer.on('popupopen', function(e) {
+                addClassToPopupIfMedia(content, e.popup);
+            });
+            layer.bindPopup(content, { maxHeight: 400 });
         }
 
         function style_OrtsteileHamburg2080_0() {
@@ -501,7 +561,7 @@
         });
         bounds_group.addLayer(layer_OrtsteileHamburg2080);
         map.addLayer(layer_OrtsteileHamburg2080);
-        function pop_StraenHamburg2080(feature, layer) {
+        function pop_VerkehrStraenHamburg2080(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['bezeichnung'] !== null ? autolinker.link(String(feature.properties['bezeichnung']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
@@ -515,17 +575,17 @@
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            layer.on('popupopen', function(e) {
+                addClassToPopupIfMedia(content, e.popup);
+            });
+            layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_StraenHamburg2080_0(feature) {
+        function style_VerkehrStraenHamburg2080_0(feature) {
             switch(String(feature.properties['v_typ'])) {
                 case 'Autobahn':
                     return {
-                pane: 'pane_StraenHamburg2080',
+                pane: 'pane_VerkehrStraenHamburg2080',
                 opacity: 1,
                 color: 'rgba(60,132,195,1.0)',
                 dashArray: '',
@@ -539,7 +599,7 @@
                     break;
                 case 'EuroRoute':
                     return {
-                pane: 'pane_StraenHamburg2080',
+                pane: 'pane_VerkehrStraenHamburg2080',
                 opacity: 1,
                 color: 'rgba(120, 205, 164,1.0)',
                 dashArray: '',
@@ -552,7 +612,7 @@
                     break;
                 default:
                     return {
-                pane: 'pane_StraenHamburg2080',
+                pane: 'pane_VerkehrStraenHamburg2080',
                 opacity: 1,
                 color: 'rgba(0,0,0,1.0)',
                 dashArray: '',
@@ -565,20 +625,149 @@
                     break;
             }
         }
-        map.createPane('pane_StraenHamburg2080');
-        map.getPane('pane_StraenHamburg2080').style.zIndex = 430;
-        map.getPane('pane_StraenHamburg2080').style['mix-blend-mode'] = 'normal';
-        var layer_StraenHamburg2080 = new L.geoJson(json_StraenHamburg2080, {
+        map.createPane('pane_VerkehrStraenHamburg2080');
+        map.getPane('pane_VerkehrStraenHamburg2080').style.zIndex = 430;
+        map.getPane('pane_VerkehrStraenHamburg2080').style['mix-blend-mode'] = 'normal';
+        var layer_VerkehrStraenHamburg2080 = new L.geoJson(json_VerkehrStraenHamburg2080, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_StraenHamburg2080',
-            layerName: 'layer_StraenHamburg2080',
-            pane: 'pane_StraenHamburg2080',
-            onEachFeature: pop_StraenHamburg2080,
-            style: style_StraenHamburg2080_0,
+            dataVar: 'json_VerkehrStraenHamburg2080',
+            layerName: 'layer_VerkehrStraenHamburg2080',
+            pane: 'pane_VerkehrStraenHamburg2080',
+            onEachFeature: pop_VerkehrStraenHamburg2080,
+            style: style_VerkehrStraenHamburg2080_0,
         });
-        bounds_group.addLayer(layer_StraenHamburg2080);
-        map.addLayer(layer_StraenHamburg2080);
+        bounds_group.addLayer(layer_VerkehrStraenHamburg2080);
+        map.addLayer(layer_VerkehrStraenHamburg2080);
+        function pop_VerkehrHamburgffentlich2080(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['bezeichnung'] !== null ? autolinker.link(String(feature.properties['bezeichnung']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Typ</th>\
+                        <td class="visible-with-data" id="v_typ">' + (feature.properties['v_typ'] !== null ? autolinker.link(String(feature.properties['v_typ']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td class="visible-with-data" id="notiz" colspan="2"><strong>notiz</strong><br />' + (feature.properties['notiz'] !== null ? autolinker.link(String(feature.properties['notiz']).replace(/'/g, '\'').toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            var content = removeEmptyRowsFromPopupContent(popupContent, feature);
+            layer.on('popupopen', function(e) {
+                addClassToPopupIfMedia(content, e.popup);
+            });
+            layer.bindPopup(content, { maxHeight: 400 });
+        }
+
+        function style_VerkehrHamburgffentlich2080_0(feature) {
+            switch(String(feature.properties['bezeichnung'])) {
+                case 'H1':
+                    return {
+                pane: 'pane_VerkehrHamburgffentlich2080',
+                opacity: 1,
+                color: 'rgba(247,252,245,1.0)',
+                dashArray: '20.0,10.0',
+                lineCap: 'butt',
+                lineJoin: 'bevel',
+                weight: 5.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'H2':
+                    return {
+                pane: 'pane_VerkehrHamburgffentlich2080',
+                opacity: 1,
+                color: 'rgba(221,242,215,1.0)',
+                dashArray: '20.0,10.0',
+                lineCap: 'butt',
+                lineJoin: 'bevel',
+                weight: 5.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'H3/1':
+                    return {
+                pane: 'pane_VerkehrHamburgffentlich2080',
+                opacity: 1,
+                color: 'rgba(178,224,171,1.0)',
+                dashArray: '20.0,10.0',
+                lineCap: 'butt',
+                lineJoin: 'bevel',
+                weight: 5.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'H3/2':
+                    return {
+                pane: 'pane_VerkehrHamburgffentlich2080',
+                opacity: 1,
+                color: 'rgba(123,199,124,1.0)',
+                dashArray: '20.0,10.0',
+                lineCap: 'butt',
+                lineJoin: 'bevel',
+                weight: 5.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'H4':
+                    return {
+                pane: 'pane_VerkehrHamburgffentlich2080',
+                opacity: 1,
+                color: 'rgba(61,167,90,1.0)',
+                dashArray: '20.0,10.0',
+                lineCap: 'butt',
+                lineJoin: 'bevel',
+                weight: 5.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                case 'H5':
+                    return {
+                pane: 'pane_VerkehrHamburgffentlich2080',
+                opacity: 1,
+                color: 'rgba(19,126,58,1.0)',
+                dashArray: '20.0,10.0',
+                lineCap: 'butt',
+                lineJoin: 'bevel',
+                weight: 5.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_VerkehrHamburgffentlich2080',
+                opacity: 1,
+                color: 'rgba(0,68,27,1.0)',
+                dashArray: '20.0,10.0',
+                lineCap: 'butt',
+                lineJoin: 'bevel',
+                weight: 5.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_VerkehrHamburgffentlich2080');
+        map.getPane('pane_VerkehrHamburgffentlich2080').style.zIndex = 431;
+        map.getPane('pane_VerkehrHamburgffentlich2080').style['mix-blend-mode'] = 'normal';
+        var layer_VerkehrHamburgffentlich2080 = new L.geoJson(json_VerkehrHamburgffentlich2080, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_VerkehrHamburgffentlich2080',
+            layerName: 'layer_VerkehrHamburgffentlich2080',
+            pane: 'pane_VerkehrHamburgffentlich2080',
+            onEachFeature: pop_VerkehrHamburgffentlich2080,
+            style: style_VerkehrHamburgffentlich2080_0,
+        });
+        bounds_group.addLayer(layer_VerkehrHamburgffentlich2080);
+        map.addLayer(layer_VerkehrHamburgffentlich2080);
         function pop_ZwielichtOrtevonInteresse(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
@@ -603,10 +792,10 @@
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
-			layer.on('popupopen', function(e) {
-				addClassToPopupIfMedia(content, e.popup);
-			});
-			layer.bindPopup(content, { maxHeight: 400 });
+            layer.on('popupopen', function(e) {
+                addClassToPopupIfMedia(content, e.popup);
+            });
+            layer.bindPopup(content, { maxHeight: 400 });
         }
         function style_ZwielichtOrtevonInteresse_0(feature) {
             switch(String(feature.properties['typ'])) {
@@ -800,16 +989,18 @@
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .className += ' fa fa-search';
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
-        .title += 'Search for a place';
+        .title += 'Einen Ort suchen';
         var overlaysTree = [
-            {label: 'Zwielicht Orte von Interesse<br /><table><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Ausgehen0.png" /></td><td>Ausgehen</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_BarsundKneipen1.png" /></td><td>Bars und Kneipen</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Einkaufen2.png" /></td><td>Einkaufen</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Freizeit3.png" /></td><td>Freizeit</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Hotels4.png" /></td><td>Hotels</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Konzerne5.png" /></td><td>Konzerne</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Medizinisches6.png" /></td><td>Medizinisches</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Restaurants7.png" /></td><td>Restaurants</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Schatten8.png" /></td><td>Schatten</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Sicherheit9.png" /></td><td>Sicherheit</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Sightseeing10.png" /></td><td>Sightseeing</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Verkehr11.png" /></td><td>Verkehr</td></tr><tr><td style="text-align: center;"><img src="legend/ZwielichtOrtevonInteresse_Wohnung12.png" /></td><td>Wohnung</td></tr></table>', layer: cluster_ZwielichtOrtevonInteresse},
-        {label: '<b>Verkehr</b>',  selectAllCheckbox: true, children: [
-            {label: 'Straßen Hamburg 2080', layer: layer_StraenHamburg2080},]},
-        {label: '<b>Stadtplan</b>',  selectAllCheckbox: true, children: [
-            {label: '<img src="legend/OrtsteileHamburg2080.png" /> Ortsteile Hamburg 2080', layer: layer_OrtsteileHamburg2080},
-            {label: '<img src="legend/StadtteileHamburg2080.png" /> Stadtteile Hamburg 2080', layer: layer_StadtteileHamburg2080},
-            {label: '<img src="legend/BezirkeHamburg2080.png" /> Bezirke Hamburg 2080', layer: layer_BezirkeHamburg2080},]},
-        {label: '<b>Rest der Welt</b>',  selectAllCheckbox: true, children: [
+        {label: 'Zwielicht Orte von Interesse', layer: cluster_ZwielichtOrtevonInteresse},
+        {label: '<b>Hamburg 2080</b>', selectAllCheckbox: true, children: [
+            {label: '<b>Verkehr</b>',  selectAllCheckbox: true, children: [
+                {label: 'Verkehr Hamburg Öffentlich 2080<br />', layer: layer_VerkehrHamburgffentlich2080},
+                {label: 'Verkehr Straßen Hamburg 2080<br />', layer: layer_VerkehrStraenHamburg2080},]},
+            {label: '<b>Stadtplan</b>',  selectAllCheckbox: true, children: [
+                {label: '<img src="legend/OrtsteileHamburg2080.png" /> Ortsteile Hamburg 2080', layer: layer_OrtsteileHamburg2080},
+                {label: '<img src="legend/StadtteileHamburg2080.png" /> Stadtteile Hamburg 2080', layer: layer_StadtteileHamburg2080},
+                {label: '<img src="legend/BezirkeHamburg2080.png" /> Bezirke Hamburg 2080', layer: layer_BezirkeHamburg2080},]},]},
+        {label: '<b>Rest der Welt</b>',  collapsed: true, selectAllCheckbox: true, children: [
             {label: '<img src="legend/SOXAreal.png" /> SOX Areal', layer: layer_SOXAreal},
             {label: '<img src="legend/ADLLandeshauptstdte.png" /> ADL Landeshauptstädte', layer: layer_ADLLandeshauptstdte},
             {label: '<img src="legend/ADLLnder.png" /> ADL Länder', layer: layer_ADLLnder},]},
@@ -818,20 +1009,86 @@
             {label: "KarteNeueMitte_modifiziert", layer: layer_KarteNeueMitte_modifiziert_4},
             {label: "Karte Hamburg (german)_modifiziert", layer: layer_KarteHamburggerman_modifiziert_3},
             {label: "DeutscheBucht_modifiziert", layer: layer_DeutscheBucht_modifiziert_2},]},
-        {label: '<b>Basis</b>', collapsed: false, selectAllCheckbox: true, children: [
+        {label: '<b>Basis</b>', collapsed: true, selectAllCheckbox: true, children: [
             {label: "Google Map Sattelit", layer: layer_GoogleMapSattelit_1, radioGroup: 'bm' },
             {label: "OpenStreetMap", layer: layer_OpenStreetMap_0, radioGroup: 'bm' },]},]
         var lay = L.control.layers.tree(null, overlaysTree,{
-            //namedToggle: true,
-            //selectorBack: false,
-            //closedSymbol: '&#8862; &#x1f5c0;',
-            //openedSymbol: '&#8863; &#x1f5c1;',
-            //collapseAll: 'Collapse all',
-            //expandAll: 'Expand all',
+            // namedToggle: true,
+            // selectorBack: false,
+            // closedSymbol: '&#8862; &#x1f5c0;',
+            // openedSymbol: '&#8863; &#x1f5c1;',
+            // collapseAll: 'Collapse all',
+            // expandAll: 'Expand all',
             collapsed: false, 
         });
         lay.addTo(map);
-		document.addEventListener("DOMContentLoaded", function() {
+// Add collapsible legend control below the layer list
+var legendControl = L.Control.extend({
+    options: { position: 'topright' },
+    onAdd: function(map) {
+        var container = L.DomUtil.create('div', 'leaflet-control legend-control');
+        container.style.background = 'rgba(255,255,255,0.8)';
+        container.style.padding = '8px';
+        container.style.marginTop = '8px';
+        container.style.boxShadow = '0 1px 5px rgba(0,0,0,0.3)';
+        container.style.maxWidth = '260px';
+        container.style.fontSize = '12px';
+        container.style.borderRadius = '6px';
+        container.style.zIndex = '1000';
+        var toggle = document.createElement('div');
+        toggle.style.cursor = 'pointer';
+        toggle.style.fontWeight = 'bold';
+        toggle.style.marginBottom = '6px';
+        toggle.innerHTML = 'Legende (POI) <span style="font-size:16px;">&#9660;</span>';
+        container.appendChild(toggle);
+        var legendContent = document.createElement('div');
+        legendContent.id = 'legend-content';
+        legendContent.innerHTML = `
+        <div style="font-weight:bold;margin-bottom:4px;">POI / Orte von Interesse</div>
+        <table style="width:100%;margin-bottom:10px;">
+        <tr><td><img src="markers/party-fun-dance-enjoy-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Ausgehen</td></tr>
+        <tr><td><img src="markers/cocktail-5-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Bars und Kneipen</td></tr>
+        <tr><td><img src="markers/shopping-card-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Einkaufen</td></tr>
+        <tr><td><img src="markers/spanish-guitar-music-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Freizeit</td></tr>
+        <tr><td><img src="markers/hotel-sign-hotel-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Hotels</td></tr>
+        <tr><td><img src="markers/profits-statistics-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Konzerne</td></tr>
+        <tr><td><img src="markers/healthcare-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Medizinisches</td></tr>
+        <tr><td><img src="markers/restaurant-waiter-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Restaurants</td></tr>
+        <tr><td><img src="markers/Shadowrun-5-Schlange_250x300px.png" style="height:22px;vertical-align:middle;" /></td><td>Schatten</td></tr>
+        <tr><td><img src="markers/police-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Sicherheit</td></tr>
+        <tr><td><img src="markers/camera-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Sightseeing</td></tr>
+        <tr><td><img src="markers/transport-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Verkehr</td></tr>
+        <tr><td><img src="markers/house-svgrepo-com.svg" style="height:19px;vertical-align:middle;" /></td><td>Wohnung</td></tr>
+        </table>`
+        // <div style="font-weight:bold;margin-bottom:4px;">Verkehr</div>
+        // <table style="width:100%;">
+        // <tr><td><img src="legend/VerkehrHamburgffentlich2080_H10.png" style="height:19px;vertical-align:middle;" /></td><td>H1</td></tr>
+        // <tr><td><img src="legend/VerkehrHamburgffentlich2080_H21.png" style="height:19px;vertical-align:middle;" /></td><td>H2</td></tr>
+        // <tr><td><img src="legend/VerkehrHamburgffentlich2080_H312.png" style="height:19px;vertical-align:middle;" /></td><td>H3/1</td></tr>
+        // <tr><td><img src="legend/VerkehrHamburgffentlich2080_H323.png" style="height:19px;vertical-align:middle;" /></td><td>H3/2</td></tr>
+        // <tr><td><img src="legend/VerkehrHamburgffentlich2080_H44.png" style="height:19px;vertical-align:middle;" /></td><td>H4</td></tr>
+        // <tr><td><img src="legend/VerkehrHamburgffentlich2080_H55.png" style="height:19px;vertical-align:middle;" /></td><td>H5</td></tr>
+        // <tr><td><img src="legend/VerkehrHamburgffentlich2080_6.png" style="height:19px;vertical-align:middle;" /></td><td>Sonstiges</td></tr>
+        // <tr><td><img src="legend/VerkehrStraenHamburg2080_0.png" style="height:19px;vertical-align:middle;" /></td><td>Straßen</td></tr>
+        // <tr><td><img src="legend/VerkehrStraenHamburg2080_Autobahn1.png" style="height:19px;vertical-align:middle;" /></td><td>Autobahn</td></tr>
+        // <tr><td><img src="legend/VerkehrStraenHamburg2080_EuroRoute2.png" style="height:19px;vertical-align:middle;" /></td><td>EuroRoute</td></tr>
+        // </table>
+        // `;
+        container.appendChild(legendContent);
+        // Collapsible logic
+        legendContent.style.display = "none"; // Start collapsed
+        toggle.innerHTML = 'Legende (POI) <span style="font-size:16px;">&#9654;</span>'; // Collapsed icon
+        var collapsed = true;
+        toggle.onclick = function() {
+            collapsed = !collapsed;
+            legendContent.style.display = collapsed ? 'none' : 'block';
+            toggle.innerHTML = collapsed ? 'Legende (POI) <span style="font-size:16px;">&#9654;</span>' : 'Legende (POI) <span style="font-size:16px;">&#9660;</span>';
+        };
+        return container;
+    }
+});
+map.addControl(new legendControl());
+        document.addEventListener("DOMContentLoaded", function() {
             // set new Layers List height which considers toggle icon
             function newLayersListHeight() {
                 var layerScrollbarElement = document.querySelector('.leaflet-control-layers-scrollbar');
@@ -856,15 +1113,15 @@
                 isLayersListExpanded = !isLayersListExpanded;
                 newLayersListHeight()
             });	
-			// apply new Layers List height if toggle layerstree
-			if (controlLayersElement) {
-				controlLayersElement.addEventListener('click', function(event) {
-					var toggleLayerHeaderPointer = event.target.closest('.leaflet-layerstree-header-pointer span');
-					if (toggleLayerHeaderPointer) {
-						newLayersListHeight();
-					}
-				});
-			}
+            // apply new Layers List height if toggle layerstree
+            if (controlLayersElement) {
+                controlLayersElement.addEventListener('click', function(event) {
+                    var toggleLayerHeaderPointer = event.target.closest('.leaflet-layerstree-header-pointer span');
+                    if (toggleLayerHeaderPointer) {
+                        newLayersListHeight();
+                    }
+                });
+            }
             // Collapsed/Expanded at Start to apply new height
             setTimeout(function() {
                 toggleLayerControl.click();
@@ -1048,7 +1305,7 @@
           }
           })
         }
-        var FiltersOVI = {"typ": "str","region": "str"};
+        var FiltersOVI = {"typ": "str"};
         function filterFuncOVI() {
         // Only filter the Orte von Interesse layer (adjust name if needed)
         var features = json_ZwielichtOrtevonInteresse.features.slice(0);
@@ -1141,6 +1398,7 @@
             typ_options_str  += '<option value="Sightseeing">Sightseeing</option>';
             typ_options_str  += '<option value="Verkehr">Verkehr</option>';
             typ_options_str  += '<option value="Wohnung">Wohnung</option>';
+            typ_options_str  += '<option value="Sonstiges">Sonstiges</option>';
             sel_typ.innerHTML = typ_options_str;
             div_typ.appendChild(sel_typ);
             var lab_typ = document.createElement('div');
