@@ -145,7 +145,7 @@
         map.addLayer(layer_DeutscheBucht_modifiziert_2);
         map.createPane('pane_KarteHamburggerman_modifiziert_3');
         map.getPane('pane_KarteHamburggerman_modifiziert_3').style.zIndex = 403;
-        var img_KarteHamburggerman_modifiziert_3 = 'data/KarteHamburggerman_modifiziert_3.webp';
+        var img_KarteHamburggerman_modifiziert_3 = 'data/KarteHamburggerman_modifiziert_dark.webp';
         var img_bounds_KarteHamburggerman_modifiziert_3 = [[53.26079926201627,9.084405533086791],[53.94578239294034,10.667968138817523]];
         var layer_KarteHamburggerman_modifiziert_3 = new L.imageOverlay(img_KarteHamburggerman_modifiziert_3,
                                               img_bounds_KarteHamburggerman_modifiziert_3,
@@ -154,7 +154,7 @@
         map.addLayer(layer_KarteHamburggerman_modifiziert_3);
         map.createPane('pane_KarteNeueMitte_modifiziert_4');
         map.getPane('pane_KarteNeueMitte_modifiziert_4').style.zIndex = 404;
-        var img_KarteNeueMitte_modifiziert_4 = 'data/KarteNeueMitte_modifiziert_4.webp';
+        var img_KarteNeueMitte_modifiziert_4 = 'data/KarteNeueMitte_modifiziert_dark.webp';
         var img_bounds_KarteNeueMitte_modifiziert_4 = [[53.53187664647549,9.936372624524841],[53.584229830311344,10.178469233375044]];
         var layer_KarteNeueMitte_modifiziert_4 = new L.imageOverlay(img_KarteNeueMitte_modifiziert_4,
                                               img_bounds_KarteNeueMitte_modifiziert_4,
@@ -487,11 +487,12 @@
             return {
                 pane: 'pane_StadtteileHamburg2080',
                 opacity: 1,
-                color: 'rgba(159,34,143,1.0)',
+                // color: 'rgba(159,34,143,1.0)',
+                color: 'rgba(108,12,96,1.0)',
                 dashArray: '3.0,10.0',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 2.5,
+                weight: 2,
                 fillOpacity: 0,
                 interactive: true,
             }
@@ -509,7 +510,7 @@
             style: style_StadtteileHamburg2080_0,
         });
         bounds_group.addLayer(layer_StadtteileHamburg2080);
-        map.addLayer(layer_StadtteileHamburg2080);
+        // map.addLayer(layer_StadtteileHamburg2080);
         function pop_OrtsteileHamburg2080(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
@@ -560,7 +561,7 @@
             style: style_OrtsteileHamburg2080_0,
         });
         bounds_group.addLayer(layer_OrtsteileHamburg2080);
-        map.addLayer(layer_OrtsteileHamburg2080);
+        // map.addLayer(layer_OrtsteileHamburg2080);
         function pop_VerkehrStraenHamburg2080(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
@@ -638,7 +639,7 @@
             style: style_VerkehrStraenHamburg2080_0,
         });
         bounds_group.addLayer(layer_VerkehrStraenHamburg2080);
-        map.addLayer(layer_VerkehrStraenHamburg2080);
+        // map.addLayer(layer_VerkehrStraenHamburg2080);
         function pop_VerkehrHamburgffentlich2080(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
@@ -661,96 +662,96 @@
 
         function style_VerkehrHamburgffentlich2080_0(feature) {
             switch(String(feature.properties['bezeichnung'])) {
-                case 'H1':
+                case 'H1': // U1 (blue)
                     return {
-                pane: 'pane_VerkehrHamburgffentlich2080',
-                opacity: 1,
-                color: 'rgba(247,252,245,1.0)',
-                dashArray: '20.0,10.0',
-                lineCap: 'butt',
-                lineJoin: 'bevel',
-                weight: 5.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
+                        pane: 'pane_VerkehrHamburgffentlich2080',
+                        opacity: 1,
+                        color: '#0076bd',
+                        dashArray: '20.0,10.0',
+                        lineCap: 'butt',
+                        lineJoin: 'bevel',
+                        weight: 5.0,
+                        fillOpacity: 0,
+                        interactive: true,
+                    }
                     break;
-                case 'H2':
+                case 'H2': // U2 (red)
                     return {
-                pane: 'pane_VerkehrHamburgffentlich2080',
-                opacity: 1,
-                color: 'rgba(221,242,215,1.0)',
-                dashArray: '20.0,10.0',
-                lineCap: 'butt',
-                lineJoin: 'bevel',
-                weight: 5.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
+                        pane: 'pane_VerkehrHamburgffentlich2080',
+                        opacity: 1,
+                        color: '#e20613',
+                        dashArray: '20.0,10.0',
+                        lineCap: 'butt',
+                        lineJoin: 'bevel',
+                        weight: 5.0,
+                        fillOpacity: 0,
+                        interactive: true,
+                    }
                     break;
-                case 'H3/1':
+                case 'H3/1': // U3 (yellow)
                     return {
-                pane: 'pane_VerkehrHamburgffentlich2080',
-                opacity: 1,
-                color: 'rgba(178,224,171,1.0)',
-                dashArray: '20.0,10.0',
-                lineCap: 'butt',
-                lineJoin: 'bevel',
-                weight: 5.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
+                        pane: 'pane_VerkehrHamburgffentlich2080',
+                        opacity: 1,
+                        color: '#f6a800',
+                        dashArray: '20.0,10.0',
+                        lineCap: 'butt',
+                        lineJoin: 'bevel',
+                        weight: 5.0,
+                        fillOpacity: 0,
+                        interactive: true,
+                    }
                     break;
-                case 'H3/2':
+                case 'H3/2': // U4 (turquoise)
                     return {
-                pane: 'pane_VerkehrHamburgffentlich2080',
-                opacity: 1,
-                color: 'rgba(123,199,124,1.0)',
-                dashArray: '20.0,10.0',
-                lineCap: 'butt',
-                lineJoin: 'bevel',
-                weight: 5.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
+                        pane: 'pane_VerkehrHamburgffentlich2080',
+                        opacity: 1,
+                        color: '#00b388',
+                        dashArray: '20.0,10.0',
+                        lineCap: 'butt',
+                        lineJoin: 'bevel',
+                        weight: 5.0,
+                        fillOpacity: 0,
+                        interactive: true,
+                    }
                     break;
-                case 'H4':
+                case 'H4': // S1/S11 (green)
                     return {
-                pane: 'pane_VerkehrHamburgffentlich2080',
-                opacity: 1,
-                color: 'rgba(61,167,90,1.0)',
-                dashArray: '20.0,10.0',
-                lineCap: 'butt',
-                lineJoin: 'bevel',
-                weight: 5.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
+                        pane: 'pane_VerkehrHamburgffentlich2080',
+                        opacity: 1,
+                        color: '#009540',
+                        dashArray: '20.0,10.0',
+                        lineCap: 'butt',
+                        lineJoin: 'bevel',
+                        weight: 5.0,
+                        fillOpacity: 0,
+                        interactive: true,
+                    }
                     break;
-                case 'H5':
+                case 'H5': // S3/S31 (pink/magenta)
                     return {
-                pane: 'pane_VerkehrHamburgffentlich2080',
-                opacity: 1,
-                color: 'rgba(19,126,58,1.0)',
-                dashArray: '20.0,10.0',
-                lineCap: 'butt',
-                lineJoin: 'bevel',
-                weight: 5.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
+                        pane: 'pane_VerkehrHamburgffentlich2080',
+                        opacity: 1,
+                        color: '#e3007f',
+                        dashArray: '20.0,10.0',
+                        lineCap: 'butt',
+                        lineJoin: 'bevel',
+                        weight: 5.0,
+                        fillOpacity: 0,
+                        interactive: true,
+                    }
                     break;
-                default:
+                default: // Other/unknown (gray)
                     return {
-                pane: 'pane_VerkehrHamburgffentlich2080',
-                opacity: 1,
-                color: 'rgba(0,68,27,1.0)',
-                dashArray: '20.0,10.0',
-                lineCap: 'butt',
-                lineJoin: 'bevel',
-                weight: 5.0,
-                fillOpacity: 0,
-                interactive: true,
-            }
+                        pane: 'pane_VerkehrHamburgffentlich2080',
+                        opacity: 1,
+                        color: '#888888',
+                        dashArray: '20.0,10.0',
+                        lineCap: 'butt',
+                        lineJoin: 'bevel',
+                        weight: 5.0,
+                        fillOpacity: 0,
+                        interactive: true,
+                    }
                     break;
             }
         }
@@ -767,7 +768,7 @@
             style: style_VerkehrHamburgffentlich2080_0,
         });
         bounds_group.addLayer(layer_VerkehrHamburgffentlich2080);
-        map.addLayer(layer_VerkehrHamburgffentlich2080);
+        // map.addLayer(layer_VerkehrHamburgffentlich2080);
         function pop_ZwielichtOrtevonInteresse(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
