@@ -59,7 +59,7 @@
         <script src="data/ZwielichtOrtevonInteresse.js"></script>
         <script>
         var map = L.map('map', {
-            zoomControl:false, maxZoom:28, minZoom:1
+            zoomControl:false, maxZoom:28, minZoom:1, zoomSnap:0.5, zoomDelta:0.25, wheelPxPerZoomLevel: 100
         }).fitBounds([[53.48162760851828,9.861363897277961],[53.62283219012594,10.231773233834527]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
@@ -395,13 +395,13 @@
                     var label = L.marker(center, {
                         icon: L.divIcon({
                             className: 'bezirk-label',
-                            html: '<span style="color:#3a0066;font-weight:bold;font-size:1.7em;text-shadow:1px 1px 4px #fff;">' + lyr.feature.properties.name + '</span>',
+                            html: '<span style="color:#3a0066;font-weight:bold;font-size:1.7em;text-shadow:2px 2px 3px #fff;">' + lyr.feature.properties.name + '</span>',
                             iconSize: [120, 30]
                         }),
                         interactive: false
                     });
                     lyr._bezirkLabel = label;
-                    if (map.getZoom() >= 10 && map.getZoom() <= 13) {
+                    if (map.getZoom() >= 10 && map.getZoom() <= 12) {
                         label.addTo(map);
                     }
                 }
@@ -422,7 +422,7 @@
         map.on('zoomend', function () {
             if (map.hasLayer(layer_BezirkeHamburg2080)) {
                 removeBezirkLabels(layer_BezirkeHamburg2080);
-                if (map.getZoom() >= 10 && map.getZoom() <= 13) {
+                if (map.getZoom() >= 10 && map.getZoom() <= 12) {
                     addBezirkLabels(layer_BezirkeHamburg2080);
                 }
             }
@@ -430,21 +430,11 @@
 
         // Initial label display
         map.whenReady(function () {
-            if (map.hasLayer(layer_BezirkeHamburg2080) && map.getZoom() >= 10 && map.getZoom() <= 13) {
+            if (map.hasLayer(layer_BezirkeHamburg2080) && map.getZoom() >= 10 && map.getZoom() <= 12) {
                 addBezirkLabels(layer_BezirkeHamburg2080);
             }
         });
 
-        // // Add some CSS for the label
-        // var style = document.createElement('style');
-        // style.innerHTML = `
-        // .bezirk-label {
-        //     pointer-events: none;
-        //     text-align: center;
-        //     white-space: nowrap;
-        // }
-        // `;
-        // document.head.appendChild(style);
         map.createPane('pane_BezirkeHamburg2080');
         map.getPane('pane_BezirkeHamburg2080').style.zIndex = 420;
         map.getPane('pane_BezirkeHamburg2080').style['mix-blend-mode'] = 'normal';
@@ -492,7 +482,7 @@
                 dashArray: '3.0,10.0',
                 lineCap: 'square',
                 lineJoin: 'bevel',
-                weight: 2,
+                weight: 1.5,
                 fillOpacity: 0,
                 interactive: true,
             }
